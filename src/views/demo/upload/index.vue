@@ -3,8 +3,8 @@
     <n-upload
       class="mx-auto w-[75%] p-20 text-center"
       :custom-request="handleUpload"
-      :show-file-list="false"
-      accept=".png,.jpg,.jpeg"
+      :show-file-list="true"
+      accept=".nii.gz"
       @before-upload="onBeforeUpload"
     >
       <n-upload-dragger>
@@ -15,35 +15,36 @@
       </n-upload-dragger>
     </n-upload>
 
-    <n-card v-if="imgList && imgList.length" class="mt-16 items-center">
-      <n-image-group>
-        <n-space justify="space-between" align="center">
-          <n-card v-for="(item, index) in imgList" :key="index" class="w-280 hover:card-shadow">
-            <div class="h-160 f-c-c">
-              <n-image width="200" :src="item.url" />
-            </div>
-            <n-space class="mt-16" justify="space-evenly">
-              <n-button dashed type="primary" @click="copy(item.url)"> url </n-button>
-              <n-button dashed type="primary" @click="copy(`![${item.fileName}](${item.url})`)"
-                >MD</n-button
-              >
-              <n-button
-                dashed
-                type="primary"
-                @click="copy(`&lt;img src=&quot;${item.url}&quot; /&gt;`)"
-                >img</n-button
-              >
-            </n-space>
-          </n-card>
-          <div v-for="i in 4" :key="i" class="w-280" />
-        </n-space>
-      </n-image-group>
-    </n-card>
+<!--    <n-card v-if="imgList && imgList.length" class="mt-16 items-center">-->
+<!--      <n-image-group>-->
+<!--        <n-space justify="space-between" align="center">-->
+<!--          <n-card v-for="(item, index) in imgList" :key="index" class="w-280 hover:card-shadow">-->
+<!--            <div class="h-160 f-c-c">-->
+<!--              <n-image width="200" :src="item.url" />-->
+<!--            </div>-->
+<!--            <n-space class="mt-16" justify="space-evenly">-->
+<!--              <n-button dashed type="primary" @click="copy(item.url)"> url </n-button>-->
+<!--              <n-button dashed type="primary" @click="copy(`![${item.fileName}](${item.url})`)"-->
+<!--                >MD</n-button-->
+<!--              >-->
+<!--              <n-button-->
+<!--                dashed-->
+<!--                type="primary"-->
+<!--                @click="copy(`&lt;img src=&quot;${item.url}&quot; /&gt;`)"-->
+<!--                >img</n-button-->
+<!--              >-->
+<!--            </n-space>-->
+<!--          </n-card>-->
+<!--          <div v-for="i in 4" :key="i" class="w-280" />-->
+<!--        </n-space>-->
+<!--      </n-image-group>-->
+<!--    </n-card>-->
   </CommonPage>
 </template>
 
 <script setup>
 import { useClipboard } from '@vueuse/core'
+import axios from 'axios'
 defineOptions({ name: 'Upload' })
 
 const { copy, copied } = useClipboard()
@@ -60,24 +61,49 @@ watch(copied, (val) => {
 })
 
 function onBeforeUpload({ file }) {
-  if (!file.file?.type.startsWith('image/')) {
-    $message.error('只能上传图片')
+  let nameArr = file.name.split('.')
+  if (! (nameArr[nameArr.length - 1] === 'gz' && nameArr[nameArr.length - 2] === 'nii')) {
+    $message.error('只能上传nii.gz文件')
     return false
   }
+  // if (!file.file?.type.startsWith('image/')) {
+  //   $message.error('只能上传图片')
+  //   return false
+  // }
   return true
 }
 
-async function handleUpload({ file, onFinish }) {
+function handleUpload({ file, onFinish }) {
   if (!file || !file.type) {
     $message.error('请选择文件')
   }
 
-  // 模拟上传
+  let formData = new FormData()
+  formData.append('myFile', file.file)
+
   $message.loading('上传中...')
-  setTimeout(() => {
+  console.log(Array.from(formData.entries()))
+  axios.post('http://127.0.0.1:8009/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    }
+  }).then( resp => {
+    console.log(resp.data)
     $message.success('上传成功')
-    imgList.push({ fileName: file.name, url: URL.createObjectURL(file.file) })
-    onFinish()
-  }, 1500)
+    $message.loading('预测中,请不要点击...')
+    axios.get('http://127.0.0.1:8009/predict?user_name=ikun').then( resp => {
+      console.log(resp.data)
+      $message.success('预测成功')
+      onFinish()
+    })
+  })
+
+  // // 模拟上传
+  // $message.loading('上传中...')
+  // setTimeout(() => {
+  //   $message.success('上传成功')
+  //   imgList.push({ fileName: file.name, url: URL.createObjectURL(file.file) })
+  //   onFinish()
+  // }, 1500)
 }
 </script>

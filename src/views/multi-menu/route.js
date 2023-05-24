@@ -8,7 +8,7 @@ export default {
     title: '多级菜单',
     icon: 'ic:baseline-menu',
     role: ['admin'],
-    requireAuth: true,
+    requireAuth: false,
     order: 4,
   },
   children: [
@@ -55,7 +55,7 @@ export default {
         title: 'a-2',
         icon: 'ic:baseline-menu',
         role: ['admin'],
-        requireAuth: true,
+        requireAuth: false,
       },
       children: [
         {
