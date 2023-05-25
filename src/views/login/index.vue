@@ -1,4 +1,4 @@
-<template>
+<template xmlns:dark="http://www.w3.org/1999/xhtml" xmlns:md="http://www.w3.org/1999/xhtml">
   <AppPage :show-footer="true" bg-cover :style="{ backgroundImage: `url(${bgImg})` }">
     <div
       style="transform: translateY(25px)"
@@ -15,7 +15,7 @@
         </h5>
         <div mt-30>
           <n-input
-            v-model:value="loginInfo.name"
+            v-model:value="loginInfo.mobile"
             autofocus
             class="h-50 items-center pl-10 text-16"
             placeholder="admin"
@@ -55,6 +55,13 @@
             登录
           </n-button>
         </div>
+
+        <!-- Added a new div for the registration link -->
+        <div mt-20 f-c-c>
+          <!-- Used a router-link component to navigate to the registration page -->
+          <!-- You can change the path and the text as you like -->
+          <!--          <router-link to="register" class="text-blue">没有账号？点击注册</router-link>-->
+        </div>
       </div>
     </div>
   </AppPage>
@@ -73,7 +80,7 @@ const router = useRouter()
 const { query } = useRoute()
 
 const loginInfo = ref({
-  name: '',
+  mobile: '',
   password: '',
 })
 
@@ -82,7 +89,7 @@ initLoginInfo()
 function initLoginInfo() {
   const localLoginInfo = lStorage.get('loginInfo')
   if (localLoginInfo) {
-    loginInfo.value.name = localLoginInfo.name || ''
+    loginInfo.value.mobile = localLoginInfo.mobile || ''
     loginInfo.value.password = localLoginInfo.password || ''
   }
 }
@@ -90,32 +97,41 @@ function initLoginInfo() {
 const isRemember = useStorage('isRemember', false)
 const loading = ref(false)
 async function handleLogin() {
-  const { name, password } = loginInfo.value
-  if (!name || !password) {
+  const { mobile, password } = loginInfo.value
+  if (!mobile || !password) {
     $message.warning('请输入用户名和密码')
     return
   }
   try {
     loading.value = true
     $message.loading('正在验证...')
-    const res = await api.login({ name, password: password.toString() })
-    $message.success('登录成功')
-    setToken(res.data.token)
-    if (isRemember.value) {
-      lStorage.set('loginInfo', { name, password })
+    // 修改这里的请求参数
+    const res = await api.login({ mobile, password })
+    const { code, accessToken } = res.data
+    console.log(res.data)
+    if (code === 200) {
+      $message.success('登录成功')
+      setToken(accessToken)
+      // setAccessExpire(accessExpire)
+      if (isRemember.value) {
+        lStorage.set('loginInfo', { mobile, password })
+      } else {
+        lStorage.remove('loginInfo')
+      }
+      await addDynamicRoutes()
+      if (query.redirect) {
+        const path = query.redirect
+        Reflect.deleteProperty(query, 'redirect')
+        router.push({ path, query })
+      } else {
+        router.push('/')
+      }
     } else {
-      lStorage.remove('loginInfo')
-    }
-    await addDynamicRoutes()
-    if (query.redirect) {
-      const path = query.redirect
-      Reflect.deleteProperty(query, 'redirect')
-      router.push({ path, query })
-    } else {
-      router.push('/')
+      // 处理其他状态码的情况，比如提示错误信息等
+      $message.error('登录失败')
     }
   } catch (error) {
-    console.error(error)
+    console.error('error', error)
     $message.removeMessage()
   }
   loading.value = false
