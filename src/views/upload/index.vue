@@ -81,9 +81,12 @@ function handleUpload({ file, onFinish }) {
   let formData = new FormData()
   formData.append('myFile', file.file)
 
+  const mobile = localStorage.getItem("mobile")
+  const fileName = file.file.name
+
   $message.loading('上传中...')
   console.log(Array.from(formData.entries()))
-  axios.post('http://127.0.0.1:8009/upload', formData, {
+  axios.post(`http://127.0.0.1:8009/upload?mobile=${mobile}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     }
@@ -91,10 +94,15 @@ function handleUpload({ file, onFinish }) {
     console.log(resp.data)
     $message.success('上传成功')
     $message.loading('预测中,请不要点击...')
-    axios.get('http://127.0.0.1:8009/predict?user_name=ikun').then( resp => {
+    axios.get(`http://127.0.0.1:8009/predict?mobile=${mobile}&file_name=${fileName}`).then( resp => {
       console.log(resp.data)
-      $message.success('预测成功')
-      onFinish()
+      if (resp.data === "wait a minute") {
+        $message.error('预测失败')
+        onFinish()
+      } else {
+        $message.success('预测成功')
+        onFinish()
+      }
     })
   })
 

@@ -34,12 +34,28 @@
           />
         </div>
 
-        <div mt-20>
+        <div mt-20 flex>
           <n-checkbox
             :checked="isRemember"
             label="记住我"
             :on-update:checked="(val) => (isRemember = val)"
           />
+          <div flex-1 text-right mr-6 >
+            <n-button @click="showModal = true">
+              来吧
+            </n-button>
+            <n-modal
+              v-model:show="showModal"
+              :mask-closable="false"
+              preset="dialog"
+              title="确认"
+              content="你确认"
+              positive-text="确认"
+              negative-text="算了"
+              @positive-click="onPositiveClick"
+              @negative-click="onNegativeClick"
+            />
+          </div>
         </div>
 
         <div mt-20>
@@ -112,6 +128,7 @@ async function handleLogin() {
     if (code === 200) {
       $message.success('登录成功')
       setToken(accessToken)
+      localStorage.setItem("mobile", mobile)
       // setAccessExpire(accessExpire)
       if (isRemember.value) {
         lStorage.set('loginInfo', { mobile, password })

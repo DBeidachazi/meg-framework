@@ -14,7 +14,7 @@
 
 <script setup>
 import { usePermissionStore, useAppStore } from '@/store'
-import { renderCustomIcon, renderIcon, isExternal } from '@/utils'
+import { renderCustomIcon, renderIcon, isExternal, request } from '@/utils'
 
 const router = useRouter()
 const curRoute = useRoute()
@@ -95,6 +95,14 @@ function getIcon(meta) {
 }
 
 function handleMenuSelect(key, item) {
+  if (key === 'review') {
+    // TODO : 点击阅片发送手机号
+    request.post('http://localhost:8009/sendnumber', {
+      'current_number': localStorage.getItem('mobile')
+    }).then( ({data}) => {
+      console.log(data)
+    })
+  }
   if (isExternal(item.path)) {
     window.open(item.path)
   } else {
