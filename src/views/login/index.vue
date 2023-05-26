@@ -19,7 +19,7 @@
             autofocus
             class="h-50 items-center pl-10 text-16"
             placeholder="admin"
-            :maxlength="20"
+            :maxlength="11"
           />
         </div>
         <div mt-30>
@@ -41,20 +41,7 @@
             :on-update:checked="(val) => (isRemember = val)"
           />
           <div flex-1 text-right mr-6 >
-            <n-button @click="showModal = true">
-              来吧
-            </n-button>
-            <n-modal
-              v-model:show="showModal"
-              :mask-closable="false"
-              preset="dialog"
-              title="确认"
-              content="你确认"
-              positive-text="确认"
-              negative-text="算了"
-              @positive-click="onPositiveClick"
-              @negative-click="onNegativeClick"
-            />
+            <Register></Register>
           </div>
         </div>
 
@@ -89,6 +76,7 @@ import { useStorage } from '@vueuse/core'
 import bgImg from '@/assets/images/login_bg.webp'
 import api from './api'
 import { addDynamicRoutes } from '@/router'
+import Register from '@/views/login/Register.vue'
 
 const title = import.meta.env.VITE_TITLE
 
