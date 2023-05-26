@@ -21,6 +21,7 @@
         :label-width="80"
         :model="formValue"
         :rules="rules"
+        style="display: flex; flex-direction: column;"
       >
 
         <n-form-item label="电话号码" path="mobile">

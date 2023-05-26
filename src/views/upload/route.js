@@ -5,7 +5,7 @@ export default {
   path: '/',
   component: Layout,
   meta: {
-    order: 2,
+    order: 3,
   },
   children: [
     {

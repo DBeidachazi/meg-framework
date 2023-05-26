@@ -1,21 +1,21 @@
 const Layout = () => import('@/layout/index.vue')
 
 export default {
-  name: 'review',
+  name: 'CRUD',
   path: '/',
   component: Layout,
   meta: {
-    order: 4,
+    order: 2
   },
   children: [
     {
-      name: 'review',
-      path: 'review',
+      name: 'crud',
+      path: 'crud',
       component: () => import('./index.vue'),
       meta: {
-        title: '阅片',
-        icon: 'mdi:eye',
-      }
-    }
-  ]
+        title: 'CRUD',
+        icon: 'mdi:table',
+      },
+    },
+  ],
 }

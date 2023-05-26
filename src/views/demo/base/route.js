@@ -8,6 +8,8 @@ export default {
   meta: {
     title: '基础功能',
     icon: 'majesticons:compass-line',
+    requireAuth: true,
+    role: ['admin'],
     order: 1,
   },
   children: [
