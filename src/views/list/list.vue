@@ -8,7 +8,7 @@
       <n-button type='error' @click="clearFilters">Clear Filters</n-button>
       <n-button type='warning' @click="clearSorter">Clear Sorter</n-button>
     </n-space>
-    <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive' />
+    <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive'/>
   </n-space>
 
   <input type="file" ref="fileInput" style="display: none" @change="uploadFile">
@@ -38,6 +38,7 @@ const insertPatientInformation = () =>{
     onPositiveClick:async ()=>{
       let res = await axios.post("http://localhost:8009/insert_patient", store.getInformation())
       console.log(res.data)
+      await getAll()
     }
   })
 }
@@ -46,7 +47,7 @@ const paginationReactive = reactive({
   page: 1,
   pageSize: 7,
   showSizePicker: true,
-  pageSizes: [5, 10, 15],
+  pageSizes: [5, 10],
   onChange: (page) => {
     paginationReactive.page = page;
   },
@@ -56,15 +57,18 @@ const paginationReactive = reactive({
   }
 });
 
-onMounted(() => {
+const getAll = async ()=>{
   axios.get('http://localhost:8009/getall')
-    .then(({ data }) => {
+    .then( ({data}) => {
       dataArr.value = data
-      console.log(dataArr.value)
+      // console.log(dataArr.value)
     })
     .catch(error => {
       console.error(error)
     })
+}
+onMounted(() => {
+  getAll()
 })
 
 
