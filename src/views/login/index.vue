@@ -15,7 +15,7 @@
         </h5>
         <div mt-30>
           <n-input
-            v-model:value="loginInfo.mobile"
+            v-model:value="loginInfo.username"
             autofocus
             class="h-50 items-center pl-10 text-16"
             placeholder="admin"
@@ -84,7 +84,7 @@ const router = useRouter()
 const { query } = useRoute()
 
 const loginInfo = ref({
-  mobile: '',
+  username: '',
   password: '',
 })
 
@@ -93,7 +93,7 @@ initLoginInfo()
 function initLoginInfo() {
   const localLoginInfo = lStorage.get('loginInfo')
   if (localLoginInfo) {
-    loginInfo.value.mobile = localLoginInfo.mobile || ''
+    loginInfo.value.username = localLoginInfo.username || ''
     loginInfo.value.password = localLoginInfo.password || ''
   }
 }
@@ -101,8 +101,8 @@ function initLoginInfo() {
 const isRemember = useStorage('isRemember', false)
 const loading = ref(false)
 async function handleLogin() {
-  const { mobile, password } = loginInfo.value
-  if (!mobile || !password) {
+  const { username, password } = loginInfo.value
+  if (!username || !password) {
     $message.warning('请输入用户名和密码')
     return
   }
@@ -110,16 +110,16 @@ async function handleLogin() {
     loading.value = true
     $message.loading('正在验证...')
     // 修改这里的请求参数
-    const res = await api.login({ mobile, password })
+    const res = await api.login({ username, password })
     const { code, accessToken } = res.data
-    console.log(res.data)
+    // console.log(res.data)
     if (code === 200) {
       $message.success('登录成功')
       setToken(accessToken)
-      localStorage.setItem("mobile", mobile)
+      localStorage.setItem("username", username)
       // setAccessExpire(accessExpire)
       if (isRemember.value) {
-        lStorage.set('loginInfo', { mobile, password })
+        lStorage.set('loginInfo', { username, password })
       } else {
         lStorage.remove('loginInfo')
       }
