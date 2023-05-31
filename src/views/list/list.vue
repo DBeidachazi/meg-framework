@@ -26,10 +26,11 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
+import user from '~/mock/api/user'
 
 const store = useStore()
+const username = localStorage.getItem('username')
 const insertPatientInformation = () =>{
-  const username = localStorage.getItem('username')
   console.log(username)
   window.$dialog.create({
     title: '插入病人信息',
@@ -58,7 +59,7 @@ const paginationReactive = reactive({
 });
 
 const getAll = async ()=>{
-  axios.get('http://localhost:8009/getall')
+  axios.get(`http://localhost:8009/getall?did=${username}`)
     .then( ({data}) => {
       dataArr.value = data
       // console.log(dataArr.value)
