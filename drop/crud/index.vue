@@ -107,42 +107,46 @@ onActivated(() => {
 })
 
 const columns = [
-  { type: 'selection', fixed: 'left' },
-  {
-    title: '发布',
-    key: 'isPublish',
-    width: 60,
-    align: 'center',
-    fixed: 'left',
-    render(row) {
-      return h(NSwitch, {
-        size: 'small',
-        rubberBand: false,
-        value: row['isPublish'],
-        loading: !!row.publishing,
-        onUpdateValue: () => handlePublish(row),
-      })
-    },
-  },
-  { title: '标题', key: 'title', width: 150, ellipsis: { tooltip: true } },
-  { title: '分类', key: 'category', width: 80, ellipsis: { tooltip: true } },
-  { title: '创建人', key: 'author', width: 80 },
-  {
-    title: '创建时间',
-    key: 'createDate',
-    width: 150,
-    render(row) {
-      return h('span', formatDateTime(row['createDate']))
-    },
-  },
-  {
-    title: '最后更新时间',
-    key: 'updateDate',
-    width: 150,
-    render(row) {
-      return h('span', formatDateTime(row['updateDate']))
-    },
-  },
+  // { type: 'selection', fixed: 'left' },
+  // {
+  //   title: '发布',
+  //   key: 'isPublish',
+  //   width: 60,
+  //   align: 'center',
+  //   fixed: 'left',
+  //   render(row) {
+  //     return h(NSwitch, {
+  //       size: 'small',
+  //       rubberBand: false,
+  //       value: row['isPublish'],
+  //       loading: !!row.publishing,
+  //       onUpdateValue: () => handlePublish(row),
+  //     })
+  //   },
+  // },
+  { title: '患者id', key: 'id'},
+  { title: '姓名', key: 'name'},
+  { title: '性别', key: 'sex'},
+  { title: '年龄', key: 'age'},
+  { title: '上传时间', key: 'upload_time' },
+  { title: '医疗码', key: 'code' },
+  //
+  // {
+  //   title: '创建时间',
+  //   key: 'createDate',
+  //   width: 150,
+  //   render(row) {
+  //     return h('span', formatDateTime(row['createDate']))
+  //   },
+  // },
+  // {
+  //   title: '最后更新时间',
+  //   key: 'updateDate',
+  //   width: 150,
+  //   render(row) {
+  //     return h('span', formatDateTime(row['updateDate']))
+  //   },
+  // },
   {
     title: '操作',
     key: 'actions',

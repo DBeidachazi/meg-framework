@@ -16,7 +16,7 @@ import { useStore } from '@/store/modules/store'
 const userStore = useUserStore()
 const store = useStore()
 
-const name = localStorage.getItem('mobile')
+const name = localStorage.getItem('username')
 
 const options = [
   {

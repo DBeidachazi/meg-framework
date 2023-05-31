@@ -129,7 +129,7 @@ async function handleLogin() {
         Reflect.deleteProperty(query, 'redirect')
         router.push({ path, query })
       } else {
-        router.push('/')
+        router.push('/workbench')
       }
     } else {
       // 处理其他状态码的情况，比如提示错误信息等
