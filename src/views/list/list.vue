@@ -1,7 +1,7 @@
 <template>
   <n-space vertical :size="12">
-    <n-space>
-    </n-space>
+
+
     <n-space>
       <n-button type='primary' @click="insertPatientInformation">插入病人信息</n-button>
       <n-button type='success' @click="searchPatients">查询病人信息</n-button>
@@ -15,15 +15,30 @@
 
 <script setup>
 import { h, ref, onMounted, reactive } from 'vue'
-import { NButton, useMessage } from 'naive-ui'
+import { NButton, useMessage,  useDialog} from 'naive-ui'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { lStorage } from '@/utils'
+import PatientForm from '@/components/button/PatientForm.vue'
+import { useStore } from '@/store/modules/store'
 
+const store = useStore()
+const insertPatientInformation = () =>{
+  const username = localStorage.getItem('username')
+  console.log(username)
+  window.$dialog.create({
+    title: '插入病人信息',
+    content: ()=> h(PatientForm),
+    positiveText: '提交',
+    onPositiveClick:async ()=>{
+      let res = await axios.post("http://localhost:8009/insert_patient", store.getInformation())
+      console.log(res.data)
+    }
+  })
+}
 const router = useRouter()
 const paginationReactive = reactive({
   page: 1,
-  pageSize: 5,
+  pageSize: 7,
   showSizePicker: true,
   pageSizes: [5, 10, 15],
   onChange: (page) => {
@@ -46,11 +61,6 @@ axios.get('http://localhost:8009/getall')
       })
 })
 
-const did = lStorage.get('loginInfo')
-console.log(did)
-const insertPatientInformation = async ()=>{
-  await axios.get(`http://localhost:8009/insert?did=${did}`)
-}
 
 const createColumns = ({
                          play, playtwo
@@ -116,13 +126,15 @@ const createColumns = ({
 }
 let dataArr = ref([])
 let res = ref([])
-let onedata = ref([])
 const message = useMessage()
 const columns = createColumns({
   async play(row) {
     let response = await axios.get(`http://localhost:8009/findFile?code=${row.code}`)
+    console.log(row.code)
+    console.log(row.age)
+    console.log(row.id)
     res.value = response
-    console.log(res.value.data.code)
+    // console.log(res.value.data.code)
     if (res.value.data.code !== 0) {
       // todo gai cheng tan chuang
       // 如果返回的状态码不等于0则跳转路由
@@ -132,7 +144,7 @@ const columns = createColumns({
   async playtwo(row) {
     let response = await axios.get(`http://localhost:8009/findFile?code=${row.code}`)
     res.value = response
-    console.log(res.value.data.code)
+    // console.log(res.value.data.code)
     if (res.value.data.code !== 0) {
       // todo gai cheng tan chuang
       // 如果返回的状态码不等于0则跳转路由
