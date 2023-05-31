@@ -3,7 +3,7 @@
     <div flex cursor-pointer items-center>
       <img :src="userStore.avatar" mr10 h-35 w-35 rounded-full />
 <!--      <span>{{ userStore.name }}</span>-->
-      <span>UserAvatar.vue</span>
+      <span>{{ name }}</span>
     </div>
   </n-dropdown>
 </template>
@@ -11,8 +11,12 @@
 <script setup>
 import { useUserStore } from '@/store'
 import { renderIcon } from '@/utils'
+import { useStore } from '@/store/modules/store'
 
 const userStore = useUserStore()
+const store = useStore()
+
+const name = localStorage.getItem('mobile')
 
 const options = [
   {

@@ -46,6 +46,8 @@
 import { useClipboard } from '@vueuse/core'
 import axios from 'axios'
 defineOptions({ name: 'Upload' })
+import { useStore } from '@/store/modules/store'
+const store = useStore()
 
 const { copy, copied } = useClipboard()
 
