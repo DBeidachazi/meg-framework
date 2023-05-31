@@ -4,6 +4,7 @@
       <component :is="Component" />
     </router-view>
   </AppProvider>
+
 </template>
 
 <script setup>
