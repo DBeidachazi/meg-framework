@@ -69,6 +69,7 @@ const getAll = async ()=>{
     })
 }
 onMounted(() => {
+
   getAll()
 })
 
@@ -103,10 +104,11 @@ const createColumns = ({
       title: '查看医疗影相',
       key: 'upload',
       render(row) {
+        // console.log(row.file_path)
         return h(
           NButton,
           {
-            disabled: row.id === 1, // todo 默认是不可点击的 数据库中有预测好的文件时可点击
+            disabled: row.file_path === null,
             strong: true,
             tertiary: true,
             size: 'small',
