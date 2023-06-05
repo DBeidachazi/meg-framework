@@ -26,7 +26,6 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
-import user from '~/mock/api/user'
 
 const store = useStore()
 const username = localStorage.getItem('username')
