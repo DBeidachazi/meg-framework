@@ -12,10 +12,6 @@
   </n-space>
 
   <input type="file" ref="fileInput" style="display: none" @change="uploadFile">
-
-  <!-- <n-model v-model:show="showModel"> -->
-    <!-- 123 -->
-  <!-- </n-model> -->
 </template>
 
 
@@ -60,7 +56,8 @@ const paginationReactive = reactive({
 const getAll = async ()=>{
   axios.get(`http://localhost:8009/getall?did=${username}`)
     .then( ({data}) => {
-      dataArr.value = data
+      // 倒序排列
+      dataArr.value = data.sort((a,b)=>b.id-a.id)
       // console.log(dataArr.value)
     })
     .catch(error => {
@@ -120,10 +117,6 @@ const createColumns = ({
   ]
 }
 
-// 模态框
-let showModel = ref(false)
-
-
 const fileInput = ref(null)
 let dataArr = ref([])
 let res = ref([])
@@ -134,7 +127,8 @@ const columns = createColumns({
   },
   async playtwo(row) {
     console.log(row)
-    showModel.value = !showModel.value
+
+    router.push('review')
 
 
     // let response = await axios.get(`http://localhost:8009/findFile?code=${row.code}`)
