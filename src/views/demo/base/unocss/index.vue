@@ -7,8 +7,8 @@
     </p>
     <p>
       playground：
-      <a c-blue hover-decoration-underline href="https://unocss.antfu.me/play/" target="_blank">
-        https://unocss.antfu.me/play/
+      <a c-blue hover-decoration-underline href="https://unocss.antfu.me/upload/" target="_blank">
+        https://unocss.antfu.me/upload/
       </a>
     </p>
 

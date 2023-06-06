@@ -16,8 +16,8 @@
 
 
 <script setup>
-import { h, ref, onMounted, reactive } from 'vue'
-import { NButton, useMessage,  useDialog} from 'naive-ui'
+import { h, onMounted, reactive, ref } from 'vue'
+import { NButton, useMessage } from 'naive-ui'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
@@ -25,6 +25,7 @@ import { useStore } from '@/store/modules/store'
 
 const store = useStore()
 const username = localStorage.getItem('username')
+
 const insertPatientInformation = () =>{
   console.log(username)
   window.$dialog.create({
@@ -38,6 +39,7 @@ const insertPatientInformation = () =>{
     }
   })
 }
+
 const router = useRouter()
 const paginationReactive = reactive({
   page: 1,
@@ -64,14 +66,14 @@ const getAll = async ()=>{
       console.error(error)
     })
 }
-onMounted(() => {
 
+onMounted(() => {
   getAll()
 })
 
 
 const createColumns = ({
-  play, playtwo
+  upload, looklook
 }) => {
   return [
     { title: '患者id', key: 'id' },
@@ -90,7 +92,7 @@ const createColumns = ({
             strong: true,
             tertiary: true,
             size: 'small',
-            onClick: () => play(row)
+            onClick: () => upload(row)
           },
           { default: () => 'upload' }
         )
@@ -108,7 +110,7 @@ const createColumns = ({
             strong: true,
             tertiary: true,
             size: 'small',
-            onClick: () => playtwo(row)
+            onClick: () => looklook(row)
           },
           { default: () => 'looklook' }
         )
@@ -121,26 +123,28 @@ const fileInput = ref(null)
 let dataArr = ref([])
 let res = ref([])
 const message = useMessage()
+let sendPid = ref(null)
 const columns = createColumns({
-  async play(row) {
+
+  async upload(row) {
     fileInput.value.click()
+    sendPid.value = row.code
   },
-  async playtwo(row) {
+
+  async looklook(row) {
     console.log(row)
-
-    router.push('review')
-
-
-    // let response = await axios.get(`http://localhost:8009/findFile?code=${row.code}`)
-    // res.value = response
-    // console.log(res.value.data.code)
-    // if (res.value.data.code !== 0) {
-    //   // todo gai cheng tan chuang
-    //   // 如果返回的状态码不等于0则跳转路由
-    //   await router.push('/upload')
-    // }
+    let response = await axios.post(`http://localhost:8009/sendpid`, {"current_pid":row.code})
+    if (response.data.data.code === 500) {
+      message.error('queue is full')
+    } else {
+      message.success('jumping')
+      setTimeout(() => {
+        router.push('review')
+      }, 1000)
+    }
   }
 })
+
 // 上传文件点击事件触发后执行
 const uploadFile = async (event) => {
   const file = event.target.files[0]
@@ -148,22 +152,35 @@ const uploadFile = async (event) => {
   formData.append('myFile', file)
   try {
     $message.loading('上传中...')
-    const response = await axios.post('http://localhost:8009/upload', formData, {
+    // todo get row
+    const response = await axios.post(`http://localhost:8009/upload?code=${sendPid.value}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
     console.log(response.data)
+    if (response.data.data.code === 500) {
+      $message.error('上传失败')
+      return
+    }
     $message.success('上传成功')
+    $message.loading('预测中,请耐心等待...')
+    const predict = await axios.get(`http://localhost:8009/predict?code=${sendPid.value}`)
+    console.log(predict.data)
+    if (predict.data.data.code === 500) {
+      $message.error('预测失败')
+      return
+    }
+    $message.success('预测成功')
+    await getAll()
   } catch (error) {
     console.error(error)
     $message.error('上传失败')
   }
 }
+
 const queryFile = async (code) => {
-  let response = await axios.get(`http://localhost:8009/findFile?code=${code}`)
-  res.value = response
+  res.value = await axios.get(`http://localhost:8009/findFile?code=${code}`)
   console.log(res.value.data.code)
 }
-
 </script>
