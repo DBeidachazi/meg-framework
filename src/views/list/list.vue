@@ -4,9 +4,15 @@
 
     <n-space>
       <n-button type='primary' @click="insertPatientInformation">插入病人信息</n-button>
+      <n-input round placeholder="搜索" v-model:value='search'>
+        <template #suffix>
+          <n-icon :component="FlashOutline" />
+        </template>
+      </n-input>
+
       <n-button type='success' @click="searchPatients">查询病人信息</n-button>
-      <n-button type='error' @click="clearFilters">Clear Filters</n-button>
-      <n-button type='warning' @click="clearSorter">Clear Sorter</n-button>
+<!--      <n-button type='error' @click="clearFilters">Clear Filters</n-button>-->
+<!--      <n-button type='warning' @click="clearSorter">Clear Sorter</n-button>-->
     </n-space>
     <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive'/>
   </n-space>
@@ -16,15 +22,23 @@
 
 
 <script setup>
-import { h, onMounted, reactive, ref } from 'vue'
+import { h, onMounted, onUpdated, reactive, ref } from 'vue'
 import { NButton, useMessage } from 'naive-ui'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
+import { FlashOutline } from "@vicons/ionicons5";
+import _ from 'lodash'
 
 const store = useStore()
 const username = localStorage.getItem('username')
+
+const search = ref('')
+
+const searchPatients = () => {
+  getAll(search.value)
+}
 
 const insertPatientInformation = () =>{
   console.log(username)
@@ -55,16 +69,40 @@ const paginationReactive = reactive({
   }
 });
 
-const getAll = async ()=>{
+const getAll = async (isFilter)=>{
+  if (typeof isFilter === 'undefined') {
   axios.get(`http://localhost:8009/getall?did=${username}`)
     .then( ({data}) => {
-      // 倒序排列
-      dataArr.value = data.sort((a,b)=>b.id-a.id)
+      // dataArr.value = data.sort((a,b)=>b.id-a.id)
+      // lodash 倒序排列
+      dataArr.value = _.reverse(data)
+      // lodash 去重
+      dataArr.value = _.uniqBy(dataArr.value, 'code')
       // console.log(dataArr.value)
     })
     .catch(error => {
       console.error(error)
     })
+  } else {
+    axios.get(`http://localhost:8009/getall?did=${username}`)
+    .then( ({data}) => {
+      dataArr.value = _.reverse(data)
+      dataArr.value = _.uniqBy(dataArr.value, 'code')
+      // console.log(dataArr.value)
+      dataArr.value = _.filter(dataArr.value, (item) => {
+        return _.some(item, (value) => {
+          if (typeof value === 'string') {
+            return value.toLowerCase().includes(isFilter)
+          }
+          if (typeof value === 'number') {
+            return value.toString().includes(isFilter)
+          }
+      })
+    })
+  }) .catch(error => {
+        console.error(error)
+      })
+  }
 }
 
 onMounted(() => {

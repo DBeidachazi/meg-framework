@@ -24,7 +24,7 @@ const store = useStore()
 const formModel = reactive({
   name: '',
   sex: '',
-  age: ''
+  age: null,
 })
 watch(() => formModel, () => {
   store.setInformation(formModel)
