@@ -1,10 +1,10 @@
 <template>
-  <n-space vertical :size="12">
+  <n-space vertical :size="12" my-14 mx-10>
 
 
-    <n-space>
+    <n-space mx-20>
       <n-button type='primary' @click="insertPatientInformation">插入病人信息</n-button>
-      <n-input round placeholder="搜索" v-model:value='search'>
+      <n-input  placeholder="搜索" v-model:value='search' passively-activated @keyup.enter='handleSearchKeyUpEnter' clearable>
         <template #suffix>
           <n-icon :component="FlashOutline" />
         </template>
@@ -22,7 +22,7 @@
 
 
 <script setup>
-import { h, onMounted, onUpdated, reactive, ref } from 'vue'
+import { h, handleError, onMounted, onUpdated, reactive, ref } from 'vue'
 import { NButton, useMessage } from 'naive-ui'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
@@ -36,6 +36,9 @@ const username = localStorage.getItem('username')
 
 const search = ref('')
 
+const handleSearchKeyUpEnter = () => {
+  searchPatients()
+}
 const searchPatients = () => {
   getAll(search.value)
 }
