@@ -40,9 +40,9 @@
             label="记住我"
             :on-update:checked="(val) => (isRemember = val)"
           />
-          <div flex-1 text-right mr-6 >
-            <Register></Register>
-          </div>
+<!--          <div flex-1 text-right mr-6 >-->
+<!--            <Register></Register>-->
+<!--          </div>-->
         </div>
 
         <div mt-20>
@@ -76,7 +76,7 @@ import { useStorage } from '@vueuse/core'
 import bgImg from '@/assets/images/login_bg.webp'
 import api from './api'
 import { addDynamicRoutes } from '@/router'
-import Register from '@/views/login/Register.vue'
+
 
 const title = import.meta.env.VITE_TITLE
 
@@ -112,7 +112,7 @@ async function handleLogin() {
     // 修改这里的请求参数
     const res = await api.login({ username, password })
     const { code, accessToken } = res.data
-    // console.log(res.data)
+    console.log(res.data)
     if (code === 200 && res.data.token) {
       $message.success('登录成功')
       setToken(res.data.token) // 用户权限 'admin' 'editor'    'guest'
@@ -129,7 +129,11 @@ async function handleLogin() {
         Reflect.deleteProperty(query, 'redirect')
         router.push({ path, query })
       } else {
-        router.push('/workbench')
+        if (res.data.token === 'admin') {
+          router.push('/workbench')
+        } else {
+          router.push('/list')
+        }
       }
     } else {
       // 处理其他状态码的情况，比如提示错误信息等

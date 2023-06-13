@@ -5,6 +5,10 @@ export default {
   path: '/',
   component: Layout,
   redirect: '/workbench',
+  meta: {
+    role: ['admin'],
+    requireAuth: true,
+  },
   children: [
     {
       name: 'Workbench',

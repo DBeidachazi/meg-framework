@@ -5,7 +5,9 @@ export default {
   path: '/',
   component: Layout,
   meta: {
-    order: 10,
+    order: 4,
+    requireAuth: true,
+    role: ['editor']
   },
   children: [
     {
@@ -14,7 +16,7 @@ export default {
       component: () => import('./list.vue'),
       meta: {
         title: 'list',
-        icon: 'mdi:file',
+        icon: 'mdi:table',
       }
     }
   ]
