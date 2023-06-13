@@ -32,16 +32,19 @@ export async function addDynamicRoutes() {
 
   // 没有token情况
   if (isNullOrWhitespace(token)) {
+    console.log('没有token')
     router.addRoute(EMPTY_ROUTE)
     return
   }
 
   // 有token的情况
   try {
+    console.log('有token')
     const userStore = useUserStore()
     const permissionStore = usePermissionStore()
     !userStore.userId && (await userStore.getUserInfo())
-    const accessRoutes = permissionStore.generateRoutes(userStore.role)
+    console.log(userStore.role)
+    const accessRoutes = permissionStore.generateRoutes(userStore.role) // 返回当前用户侧边路由数组
     accessRoutes.forEach((route) => {
       !router.hasRoute(route.name) && router.addRoute(route)
     })

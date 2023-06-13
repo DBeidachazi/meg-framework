@@ -113,9 +113,9 @@ async function handleLogin() {
     const res = await api.login({ username, password })
     const { code, accessToken } = res.data
     // console.log(res.data)
-    if (code === 200) {
+    if (code === 200 && res.data.token) {
       $message.success('登录成功')
-      setToken(accessToken)
+      setToken(res.data.token) // 用户权限 'admin' 'editor'    'guest'
       localStorage.setItem("username", username)
       // setAccessExpire(accessExpire)
       if (isRemember.value) {

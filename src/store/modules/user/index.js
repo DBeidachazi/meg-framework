@@ -21,7 +21,7 @@ export const useUserStore = defineStore('user', {
       return this.userInfo?.avatar
     },
     role() {
-      return this.userInfo?.role || []
+      return this.userInfo?.role || [] // 这个是用户权限保存的地方 { 0: 'editor' }
     },
   },
   actions: {
