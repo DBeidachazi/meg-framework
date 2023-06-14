@@ -19,7 +19,7 @@
           </template>
         </n-input>
 
-        <n-button type='success' @click="searchPatients">查询病人信息</n-button>
+        <n-button type='success' @click="searchPatients">查询医生信息</n-button>
       </n-space>
       <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive'/>
     </n-space>
@@ -65,7 +65,11 @@ const paginationReactive = reactive({
   onUpdatePageSize: (pageSize) => {
     paginationReactive.pageSize = pageSize;
     paginationReactive.page = 1;
-  }
+  },
+  // onUpdated:(page)=>{
+  //   console.log(page)
+  //   onchange(page)
+  // }
 });
 
 const getAll = async (isFilter)=>{
@@ -108,7 +112,9 @@ const createColumns = ({
   return [
     { title: '医生id', key: 'id' },
     { title: '用户名', key: 'username' },
-
+    {title: '姓名', key: 'name'},
+    {title: '手机号', key: 'telephone'},
+    {title: '注册时间', key: 'registerTime'},
     {
       title: '查看病人信息',
       key: 'looklook',
