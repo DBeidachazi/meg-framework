@@ -1,7 +1,15 @@
 <template>
+<!-- 面包屑 -->
+  <div mt-10 mb-4 mx-30>
+    <n-breadcrumb separator=">">
+      <n-breadcrumb-item @click="hidePatient"><img src="@/assets/svg/doctor.svg" alt="doctor" h-20 w-20 style="position: absolute; bottom: 4px"><span ml-20>医生</span></n-breadcrumb-item>
+      <n-breadcrumb-item v-if="whetherToShowThePatient"><img src="@/assets/svg/patient.svg" alt="patient" h-20 w-20 style="position: absolute; bottom: 4px"><span ml-20>病人</span></n-breadcrumb-item>
+    </n-breadcrumb>
+  </div>
 
-  <div v-show='false'>
-    <n-space vertical :size="12" my-14 mx-10>
+<!-- 医生界面 -->
+  <div v-show='whetherToShowTheDoctor'>
+    <n-space vertical :size="12" mb-14 mx-10>
 
 
       <n-space mx-20>
@@ -16,8 +24,9 @@
       <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive'/>
     </n-space>
   </div>
-  <div>
-
+<!-- 病人界面 -->
+  <div v-if="whetherToShowThePatient">
+    <patient></patient>
   </div>
 </template>
 
@@ -31,19 +40,20 @@ import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
 import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
+import patient from "@/views/admin/patient.vue";
 
 const store = useStore()
-const username = localStorage.getItem('username')
 
 const search = ref('')
 
 const handleSearchKeyUpEnter = () => {
   searchPatients()
 }
+
 const searchPatients = () => {
   getAll(search.value)
 }
-const router = useRouter()
+
 const paginationReactive = reactive({
   page: 1,
   pageSize: 7,
@@ -120,23 +130,30 @@ const createColumns = ({
 
 const fileInput = ref(null)
 let dataArr = ref([])
-let res = ref([])
 const message = useMessage()
-let sendPid = ref(null)
-const columns = createColumns({
 
+const columns = createColumns({
   async looklook(row) {
-    console.log(row.username)
-    let response = await axios.get(`http://localhost:8009/getall?did=${row.username}`)
-    console.log(response)
-    if (response.status === 200){
-      message.success('jumping')
-      setTimeout(()=>{
-        router.push('patient_list')
-      }, 1000)
-    }
+    store.setUserName(row.username)
+    showPatient()
   }
 })
 
+// 是否显示病人列表
+let whetherToShowThePatient = ref(false)
+// 是否显示医生列表
+let whetherToShowTheDoctor = ref(true)
+
+// 点击面包屑隐藏病人列表, 显示医生列表
+const hidePatient = () => {
+  whetherToShowThePatient.value = false
+  whetherToShowTheDoctor.value = true
+}
+
+// 点击医生查看医生的病人列表
+const showPatient = () => {
+  whetherToShowThePatient.value = true
+  whetherToShowTheDoctor.value = false
+}
 
 </script>

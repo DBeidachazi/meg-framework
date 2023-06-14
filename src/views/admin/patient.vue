@@ -1,5 +1,5 @@
 <template>
-  <n-space vertical :size="12" my-14 mx-10>
+  <n-space vertical :size="12" mb-14 mx-10>
 
 
     <n-space mx-20>
@@ -26,8 +26,7 @@ import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
 
 const store = useStore()
-const username = localStorage.getItem('username')
-console.log(username)
+const username = store.username
 
 
 const search = ref('')
@@ -60,8 +59,10 @@ const getAll = async (isFilter)=>{
       .then( ({data}) => {
         dataArr.value = data
         // lodash 去重
-        // dataArr.value = _.uniqBy(dataArr.value, 'code')
-        // console.log(dataArr.value)
+        dataArr.value = _.uniqBy(dataArr.value, 'code')
+        // lodash 排序
+        dataArr.value = _.sortBy(dataArr.value, 'id').reverse()
+        console.log(dataArr.value)
       })
       .catch(error => {
         console.error(error)
@@ -70,8 +71,9 @@ const getAll = async (isFilter)=>{
     axios.get(`http://localhost:8009/getall?did=${username}`)
       .then( ({data}) => {
         dataArr.value = data
-        // dataArr.value = _.uniqBy(dataArr.value, 'code')
-        // console.log(dataArr.value)
+        dataArr.value = _.uniqBy(dataArr.value, 'code')
+        dataArr.value = _.sortBy(dataArr.value, 'id').reverse()
+        console.log(dataArr.value)
         dataArr.value = _.filter(dataArr.value, (item) => {
           return _.some(item, (value) => {
             if (typeof value === 'string') {

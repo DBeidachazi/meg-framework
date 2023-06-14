@@ -7,7 +7,9 @@ export default {
   meta: {
     order: 11,
     role: ['admin'],
-    requireAuth: true
+    requireAuth: true,
+    icon: 'mdi:account-supervisor'
+
   },
   children: [
     {
@@ -18,15 +20,16 @@ export default {
         title: 'AdminPage',
         icon: 'mdi:hammer'
       }
-    },
-    {
-      name: 'PatientList',
-      path: 'patient_list',
-      component:()=>import('./patient.vue'),
-      meta: {
-        title: 'PatientList',
-        icon: 'mdi:hospital'
-      }
     }
+    // ,
+    // {
+    //   name: 'PatientList',
+    //   path: 'patient_list',
+    //   component:()=>import('./patient.vue'),
+    //   meta: {
+    //     title: 'PatientList',
+    //     icon: 'mdi:hospital'
+    //   }
+    // }
   ]
 }

@@ -17,9 +17,16 @@ export const useStore = defineStore('store', () => {
     return information
   }
 
+  let username = ref('')
+  const setUserName = (name) => {
+    username.value = name
+  }
+
   return {
     name,
+    username,
 
+    setUserName,
     setInformation,
     getInformation,
   }
