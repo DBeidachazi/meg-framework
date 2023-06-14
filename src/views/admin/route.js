@@ -18,6 +18,15 @@ export default {
         title: 'AdminPage',
         icon: 'mdi:hammer'
       }
+    },
+    {
+      name: 'PatientList',
+      path: 'patient_list',
+      component:()=>import('./patient.vue'),
+      meta: {
+        title: 'PatientList',
+        icon: 'mdi:hospital'
+      }
     }
   ]
 }

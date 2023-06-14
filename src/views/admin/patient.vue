@@ -1,24 +1,18 @@
 <template>
-
-  <div v-show='false'>
-    <n-space vertical :size="12" my-14 mx-10>
+  <n-space vertical :size="12" my-14 mx-10>
 
 
-      <n-space mx-20>
-        <n-input  placeholder="搜索" v-model:value='search' passively-activated @keyup.enter='handleSearchKeyUpEnter' clearable>
-          <template #suffix>
-            <n-icon :component="FlashOutline" />
-          </template>
-        </n-input>
+    <n-space mx-20>
+      <n-input  placeholder="搜索" v-model:value='search' passively-activated @keyup.enter='handleSearchKeyUpEnter' clearable>
+        <template #suffix>
+          <n-icon :component="FlashOutline" />
+        </template>
+      </n-input>
 
-        <n-button type='success' @click="searchPatients">查询病人信息</n-button>
-      </n-space>
-      <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive'/>
+      <n-button type='success' @click="searchPatients">查询病人信息</n-button>
     </n-space>
-  </div>
-  <div>
-
-  </div>
+    <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive'/>
+  </n-space>
 </template>
 
 
@@ -27,13 +21,14 @@ import { h, handleError, onMounted, onUpdated, reactive, ref } from 'vue'
 import { NButton, useMessage } from 'naive-ui'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
 import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
 
 const store = useStore()
 const username = localStorage.getItem('username')
+console.log(username)
+
 
 const search = ref('')
 
@@ -43,6 +38,7 @@ const handleSearchKeyUpEnter = () => {
 const searchPatients = () => {
   getAll(search.value)
 }
+
 const router = useRouter()
 const paginationReactive = reactive({
   page: 1,
@@ -60,17 +56,22 @@ const paginationReactive = reactive({
 
 const getAll = async (isFilter)=>{
   if (typeof isFilter === 'undefined') {
-    axios.get(`http://localhost:8009/admingetalldoctor`)
+    axios.get(`http://localhost:8009/getall?did=${username}`)
       .then( ({data}) => {
         dataArr.value = data
+        // lodash 去重
+        // dataArr.value = _.uniqBy(dataArr.value, 'code')
+        // console.log(dataArr.value)
       })
       .catch(error => {
         console.error(error)
       })
   } else {
-    axios.get(`http://localhost:8009/admingetalldoctor`)
+    axios.get(`http://localhost:8009/getall?did=${username}`)
       .then( ({data}) => {
         dataArr.value = data
+        // dataArr.value = _.uniqBy(dataArr.value, 'code')
+        // console.log(dataArr.value)
         dataArr.value = _.filter(dataArr.value, (item) => {
           return _.some(item, (value) => {
             if (typeof value === 'string') {
@@ -93,25 +94,29 @@ onMounted(() => {
 
 
 const createColumns = ({
-                         looklook
+                         remove
                        }) => {
   return [
-    { title: '医生id', key: 'id' },
-    { title: '用户名', key: 'username' },
-
+    { title: '患者id', key: 'id' },
+    { title: '姓名', key: 'name' },
+    { title: '性别', key: 'sex' },
+    { title: '年龄', key: 'age' },
+    { title: '上传时间', key: 'upload_time' },
+    { title: '医疗码', key: 'code' },
     {
-      title: '查看病人信息',
-      key: 'looklook',
+      title: '查看医疗影相',
+      key: 'remove',
       render(row) {
+        // console.log(row.file_path)
         return h(
           NButton,
           {
             strong: true,
             tertiary: true,
             size: 'small',
-            onClick: () => looklook(row)
+            onClick: () => remove(row)
           },
-          { default: () => 'looklook' }
+          { default: () => 'delete' }
         )
       }
     },
@@ -125,16 +130,14 @@ const message = useMessage()
 let sendPid = ref(null)
 const columns = createColumns({
 
-  async looklook(row) {
-    console.log(row.username)
-    let response = await axios.get(`http://localhost:8009/getall?did=${row.username}`)
-    console.log(response)
-    if (response.status === 200){
-      message.success('jumping')
-      setTimeout(()=>{
-        router.push('patient_list')
-      }, 1000)
-    }
+  // todo row.did替换成从锤子界面拿到doctor.username
+  async remove(row){
+    let res = await axios.post('http://localhost:8009/remove', {"code": row.code, "username": row.did})
+    console.log(res)
+    message.success("删除成功")
+    setTimeout(()=>{
+      getAll()
+    }, 500)
   }
 })
 
