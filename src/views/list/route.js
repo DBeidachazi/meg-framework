@@ -1,7 +1,7 @@
 const Layout = () => import('@/layout/index.vue')
 
 export default {
-  name: 'list',
+  name: 'patientList',
   path: '/',
   component: Layout,
   meta: {
@@ -11,11 +11,11 @@ export default {
   },
   children: [
     {
-      name: 'list',
+      name: 'patientList',
       path: 'list',
       component: () => import('./list.vue'),
       meta: {
-        title: 'list',
+        title: '病人信息',
         icon: 'mdi:table',
       }
     }

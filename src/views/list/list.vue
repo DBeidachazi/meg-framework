@@ -60,7 +60,7 @@ const insertPatientInformation = () =>{
 const router = useRouter()
 const paginationReactive = reactive({
   page: 1,
-  pageSize: 7,
+  pageSize: 10,
   showSizePicker: true,
   pageSizes: [5, 10],
   onChange: (page) => {
@@ -76,9 +76,8 @@ const getAll = async (isFilter)=>{
   if (typeof isFilter === 'undefined') {
   axios.get(`http://localhost:8009/getall?did=${username}`)
     .then( ({data}) => {
-      // dataArr.value = data.sort((a,b)=>b.id-a.id)
-      // lodash 倒序排列
-      dataArr.value = _.reverse(data)
+      // 倒序排列
+      dataArr.value = data.sort((a,b)=>b.id-a.id)
       // lodash 去重
       dataArr.value = _.uniqBy(dataArr.value, 'code')
       // console.log(dataArr.value)
@@ -117,7 +116,7 @@ const createColumns = ({
   upload, looklook
 }) => {
   return [
-    { title: '患者id', key: 'id' },
+    // { title: '患者id', key: 'id' },
     { title: '姓名', key: 'name' },
     { title: '性别', key: 'sex' },
     { title: '年龄', key: 'age' },
@@ -135,7 +134,7 @@ const createColumns = ({
             size: 'small',
             onClick: () => upload(row)
           },
-          { default: () => 'upload' }
+          { default: () => '上传' }
         )
       }
     },
@@ -153,7 +152,24 @@ const createColumns = ({
             size: 'small',
             onClick: () => looklook(row)
           },
-          { default: () => 'looklook' }
+          { default: () => '查看' }
+        )
+      }
+    },
+    {
+      title: '填写诊断书',
+      key: 'upload',
+      render(row) {
+        // console.log(row.file_path)
+        return h(
+          NButton,
+          {
+            strong: true,
+            tertiary: true,
+            size: 'small',
+            onClick: () => looklook(row)
+          },
+          { default: () => '填写' }
         )
       }
     },

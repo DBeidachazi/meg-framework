@@ -41,7 +41,7 @@ const searchPatients = () => {
 const router = useRouter()
 const paginationReactive = reactive({
   page: 1,
-  pageSize: 7,
+  pageSize: 10,
   showSizePicker: true,
   pageSizes: [5, 10],
   onChange: (page) => {
@@ -99,7 +99,7 @@ const createColumns = ({
                          remove
                        }) => {
   return [
-    { title: '患者id', key: 'id' },
+    // { title: '患者id', key: 'id' },
     { title: '姓名', key: 'name' },
     { title: '性别', key: 'sex' },
     { title: '年龄', key: 'age' },
