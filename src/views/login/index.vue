@@ -76,6 +76,9 @@ import { useStorage } from '@vueuse/core'
 import bgImg from '@/assets/images/login_bg.webp'
 import api from './api'
 import { addDynamicRoutes } from '@/router'
+import { useUserStore } from '@/store'
+
+const userStore = useUserStore()
 
 
 const title = import.meta.env.VITE_TITLE
@@ -135,6 +138,8 @@ async function handleLogin() {
           router.push('/list')
         }
       }
+      // set avatar
+      userStore.setUserAvatar("http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg")
     } else {
       // 处理其他状态码的情况，比如提示错误信息等
       $message.error('登录失败')

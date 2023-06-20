@@ -4,21 +4,21 @@ const users = {
   admin: {
     id: 1,
     name: '大脸怪(admin)',
-    avatar: 'https://assets.qszone.com/images/avatar.jpg',
+    avatar: 'http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg',
     email: 'Ronnie@123.com',
     role: ['admin'],
   },
   editor: {
     id: 2,
     name: '大脸怪(editor)',
-    avatar: 'https://assets.qszone.com/images/avatar.jpg',
+    avatar: 'http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg',
     email: 'Ronnie@123.com',
     role: ['editor'],
   },
   guest: {
     id: 3,
     name: '访客(guest)',
-    avatar: 'https://assets.qszone.com/images/avatar.jpg',
+    avatar: 'http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg',
     role: [],
   },
 }

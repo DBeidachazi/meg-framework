@@ -48,5 +48,8 @@ export const useUserStore = defineStore('user', {
     setUserInfo(userInfo = {}) {
       this.userInfo = { ...this.userInfo, ...userInfo }
     },
+    setUserAvatar(avatar) {
+      this.userInfo.avatar = avatar
+    }
   },
 })
