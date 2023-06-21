@@ -1,6 +1,6 @@
 <template>
   <AppPage :show-footer="true">
-    <div flex-1 style='height: 20%'>
+    <div flex-1 >
       <n-card rounded-10>
         <div flex items-center>
           <img rounded-full width="60" :src="userStore.avatar" alt="" />
@@ -25,8 +25,17 @@
           </div>
         </div>
       </n-card>
+
+      <div flex mt-20>
+        <n-card rounded-10 mr-5 h-100>23</n-card>
+        <n-card rounded-10 mx-5 h-100>23</n-card>
+        <n-card rounded-10 mx-5 h-100>23</n-card>
+        <n-card rounded-10 ml-5 h-100>45</n-card>
+      </div>
+
+<!--      图表-->
+      <div class="chart-container" ref="chartContainer"></div>
     </div>
-    <div class="chart-container" ref="chartContainer" ></div>
   </AppPage>
 </template>
 
@@ -102,6 +111,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .chart-container {
-  height: 500px;
+  margin-top: 10vh;
+  height: 50vh;
 }
 </style>
