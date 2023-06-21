@@ -61,43 +61,112 @@ onMounted(() => {
       console.log("data", data)
       // 使用data渲染echarts图表
       var option = {
+        title: {
+          text: '男女性就诊人数统计和对比',
+          left: 'center'
+        },
         tooltip: {
           trigger: 'axis',
           axisPointer: {
-            type: 'cross',
-            crossStyle: {
-              color: '#999'
-            }
+            animation: false
           }
         },
-        toolbox: {
-          feature: {}
-        },
         legend: {
-          data: ['男患者', '女患者'] // 获取data中的图例名称
+          data: ['male', 'female'],
+          left: 10
         },
+        toolbox: {
+          feature: {
+            dataZoom: {
+              yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {}
+          }
+        },
+        axisPointer: {
+          link: [
+            {
+              xAxisIndex: 'all'
+            }
+          ]
+        },
+        dataZoom: [
+          {
+            show: true,
+            realtime: true,
+            start: 30,
+            end: 70,
+            xAxisIndex: [0, 1]
+          },
+          {
+            type: 'inside',
+            realtime: true,
+            start: 30,
+            end: 70,
+            xAxisIndex: [0, 1]
+          }
+        ],
+        grid: [
+          {
+            left: 60,
+            right: 50,
+            height: '35%'
+          },
+          {
+            left: 60,
+            right: 50,
+            top: '55%',
+            height: '35%'
+          }
+        ],
         xAxis: [
           {
             type: 'category',
-            data: data.xAxis.data, // 获取data中的x轴数据
-            axisPointer: {
-              type: 'shadow'
-            }
+            boundaryGap: false,
+            axisLine: { onZero: true },
+            data: data.xAxis.data
+          },
+          {
+            gridIndex: 1,
+            type: 'category',
+            boundaryGap: false,
+            axisLine: { onZero: true },
+            data: data.xAxis.data,
+            position: 'top'
           }
         ],
         yAxis: [
           {
+            name: 'male',
             type: 'value',
-            name: '就诊人数',
-            min: 0,
-            max: data.max,
-            interval: 2,
-            axisLabel: {
-              formatter: '{value} 人'
-            }
+            max: data.max
           },
+          {
+            gridIndex: 1,
+            name: 'female',
+            type: 'value',
+            inverse: true
+          }
         ],
-        series: data.series
+        series: [
+          {
+            name: 'male',
+            type: 'line',
+            symbolSize: 8,
+            // prettier-ignore
+            data: data.series[0].data
+          },
+          {
+            name: 'female',
+            type: 'line',
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            symbolSize: 8,
+            // prettier-ignore
+            data: data.series[1].data
+          }
+        ],
       };
       // 设置echarts配置对象
       if (option && typeof option === 'object') {
