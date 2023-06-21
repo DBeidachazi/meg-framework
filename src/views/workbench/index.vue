@@ -27,10 +27,10 @@
       </n-card>
 
       <div flex mt-20>
-        <n-card rounded-10 mr-5 h-100>23</n-card>
-        <n-card rounded-10 mx-5 h-100>23</n-card>
-        <n-card rounded-10 mx-5 h-100>23</n-card>
-        <n-card rounded-10 ml-5 h-100>45</n-card>
+        <n-card rounded-10 mr-5 h-120>23</n-card>
+        <n-card rounded-10 mx-5 h-120>23</n-card>
+        <n-card rounded-10 mx-5 h-120>23</n-card>
+        <n-card rounded-10 ml-5 h-120>45</n-card>
       </div>
 
 <!--      图表-->
@@ -180,7 +180,7 @@ onMounted(() => {
 </script>
 <style scoped>
 .chart-container {
-  margin-top: 10vh;
+  margin-top: 6vh;
   height: 50vh;
 }
 </style>
