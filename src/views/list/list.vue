@@ -1,7 +1,5 @@
 <template>
   <n-space vertical :size="12" my-14 mx-10>
-
-
     <n-space mx-20>
       <n-button type='primary' @click="insertPatientInformation">插入病人信息</n-button>
       <n-input  placeholder="搜索" v-model:value='search' passively-activated @keyup.enter='handleSearchKeyUpEnter' clearable>
@@ -197,7 +195,7 @@ const columns = createColumns({
       message.success('jumping')
       setTimeout(() => {
         router.push('review')
-      }, 1000)
+      }, 200)
     }
   }
 })

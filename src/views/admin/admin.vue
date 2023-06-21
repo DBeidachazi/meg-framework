@@ -77,6 +77,7 @@ const getAll = async (isFilter)=>{
     axios.get(`http://localhost:8009/admingetalldoctor`)
       .then( ({data}) => {
         dataArr.value = data
+        // console.log(data)
       })
       .catch(error => {
         console.error(error)
@@ -122,12 +123,13 @@ const createColumns = ({
         return h(
           NButton,
           {
+            disabled: row.file_path === null,
             strong: true,
             tertiary: true,
             size: 'small',
             onClick: () => looklook(row)
           },
-          { default: () => 'looklook' }
+          { default: () => '查看' }
         )
       }
     },

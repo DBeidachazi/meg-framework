@@ -96,7 +96,7 @@ onMounted(() => {
 
 
 const createColumns = ({
-                         remove
+                         remove, looklook
                        }) => {
   return [
     // { title: '患者id', key: 'id' },
@@ -107,18 +107,19 @@ const createColumns = ({
     { title: '医疗码', key: 'code' },
     {
       title: '查看医疗影相',
-      key: 'remove',
+      key: 'looklook',
       render(row) {
         // console.log(row.file_path)
         return h(
           NButton,
           {
+            disabled: row.file_path === null,
             strong: true,
             tertiary: true,
             size: 'small',
-            onClick: () => remove(row)
+            onClick: () => looklook(row)
           },
-          { default: () => 'delete' }
+          { default: () => '查看' }
         )
       }
     },
@@ -140,6 +141,19 @@ const columns = createColumns({
     setTimeout(()=>{
       getAll()
     }, 500)
+  },
+
+  async looklook(row) {
+    console.log(row)
+    let response = await axios.post(`http://localhost:8009/sendpid`, {"current_pid":row.code})
+    if (response.data.data.code === 500) {
+      message.error('queue is full')
+    } else {
+      message.success('jumping')
+      setTimeout(() => {
+        router.push('review')
+      }, 200)
+    }
   }
 })
 

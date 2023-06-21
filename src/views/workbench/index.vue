@@ -1,6 +1,6 @@
 <template>
   <AppPage :show-footer="true">
-    <div flex-1>
+    <div flex-1 style='height: 20%'>
       <n-card rounded-10>
         <div flex items-center>
           <img rounded-full width="60" :src="userStore.avatar" alt="" />
@@ -11,17 +11,17 @@
           </div>
           <div ml-auto flex items-center>
             <!-- 待诊断病人 -->
-            <n-statistic label="待诊断病人" :value="4">
+            <n-statistic label="今日已预测数量" :value="4">
               <template #suffix> / 10 </template>
             </n-statistic>
             <!-- 待分割的图像数量 -->
-            <n-statistic label="待分割的图像数量" ml-100 mr-100 w-120 :value="4">
+            <n-statistic label="总预测数量" ml-100 mr-100 w-120 :value="4">
               <template #suffix> / 10 </template>
             </n-statistic>
             <!-- 我们可以插入一些logo进行美化 -->
-            <n-statistic label="预计今日诊断" :value="4">
-              <template #suffix> / 10 </template>
-            </n-statistic>
+<!--            <n-statistic label="预计今日诊断" :value="4">-->
+<!--              <template #suffix> / 10 </template>-->
+<!--            </n-statistic>-->
           </div>
         </div>
       </n-card>
