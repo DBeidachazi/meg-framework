@@ -26,17 +26,6 @@
         </div>
       </n-card>
     </div>
-
-<!--    <n-card title="项目" size="small" :segmented="true" mt-15 rounded-10>-->
-<!--      <template #header-extra>-->
-<!--        <n-button text type="primary">更多</n-button>-->
-<!--      </template>-->
-<!--      &lt;!&ndash; 设置一个div用于存放模板并渲染视图 &ndash;&gt;-->
-<!--      &lt;!&ndash; 容器-staring &ndash;&gt;-->
-
-<!--      &lt;!&ndash; 容器-ending  &ndash;&gt;-->
-<!--    </n-card>-->
-
     <div class="chart-container" ref="chartContainer" ></div>
   </AppPage>
 </template>
@@ -47,87 +36,69 @@ import * as echarts from 'echarts';
 import { onMounted } from 'vue'
 
 const userStore = useUserStore()
-
+// 获取后端返回的患者数据
 onMounted(() => {
+  // 获取echarts图表的容器
   let dom = document.getElementsByClassName('chart-container')[0];
+  // 初始化echarts图表
   let myChart = echarts.init(dom, null, {
     renderer: 'canvas',
     useDirtyRect: false
   });
-
-  var option = {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        crossStyle: {
-          color: '#999'
-        }
+  // 使用fetch()函数向后端发送GET请求
+  fetch('http://localhost:8009/information')
+    .then(response => response.json()) // 将响应转换为json格式
+    .then(data => {
+      console.log("data", data)
+      // 使用data渲染echarts图表
+      var option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'cross',
+            crossStyle: {
+              color: '#999'
+            }
+          }
+        },
+        toolbox: {
+          feature: {}
+        },
+        legend: {
+          data: ['男患者', '女患者'] // 获取data中的图例名称
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: data.xAxis.data, // 获取data中的x轴数据
+            axisPointer: {
+              type: 'shadow'
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            name: '就诊人数',
+            min: 0,
+            max: data.max,
+            interval: 2,
+            axisLabel: {
+              formatter: '{value} 人'
+            }
+          },
+        ],
+        series: data.series
+      };
+      // 设置echarts配置对象
+      if (option && typeof option === 'object') {
+        myChart.setOption(option);
       }
-    },
-    toolbox: {
-      feature: {
-        // dataView: { show: true, readOnly: false },dataview的页面不够美化，且用处不大，后无法修改，可以进行删除
-        // magicType: { show: true, type: ['line', 'bar'] },
-        // restore: { show: true },
-        // saveAsImage: { show: true }
-      }
-    },
-    // todo get data from backend
-    legend: {
-      data: ['男患者', '女患者', '医生']
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: ['星期1', '星期2', '星期3', '星期4', '星期5', '星期6', '星期7'],
-        axisPointer: {
-          type: 'shadow'
-        }
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        name: '访问次数',
-        min: 0,
-        max: 30,
-        interval: 2,
-        axisLabel: {
-          formatter: '{value} 次'
-        }
-      },
-    ],
-    series: [
-      {
-        name: '男患者',
-        type: 'bar',
-        data: [
-          2.0, 5.0, 7.0, 16.0, 20.0, 6.0, 3.0,
-        ]
-      },
-      {
-        name: '女患者',
-        type: 'bar',
-        data: [
-          3.0, 4.0, 9.0, 10.0, 15.0, 2.0, 3.0,
-        ]
-      },
-      {
-        name: '医生',
-        type: 'line',
-        data: [4.0, 6.0, 15.0, 20.0, 23.0, 8.0, 6.0,]
-      }
-    ]
-  };
+       window.addEventListener('resize', myChart.resize);
+    })
+});
 
 
-  if (option && typeof option === 'object') {
-    myChart.setOption(option);
-  }
-
-  window.addEventListener('resize', myChart.resize);
-})
 </script>
 <style scoped>
 .chart-container {
