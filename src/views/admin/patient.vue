@@ -17,19 +17,27 @@
 
 
 <script setup>
-import { h, handleError, onMounted, onUpdated, reactive, ref } from 'vue'
+import { h, onMounted, reactive, ref } from 'vue'
 import { NButton, useMessage } from 'naive-ui'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStore } from '@/store/modules/store'
 import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
+
+import api from '@/views/api/index'
+const { getall, sendpid } = api
 
 const store = useStore()
 const username = store.username
 
 
 const search = ref('')
+watch(
+  search,
+  _.debounce((val) => {
+    searchPatients(val)
+  }, 500)
+)
 
 const handleSearchKeyUpEnter = () => {
   searchPatients()
@@ -55,25 +63,23 @@ const paginationReactive = reactive({
 
 const getAll = async (isFilter)=>{
   if (typeof isFilter === 'undefined') {
-    axios.get(`http://localhost:8009/getall?did=${username}`)
-      .then( ({data}) => {
+      getall(username).then( ({data}) => {
         dataArr.value = data
         // lodash 去重
         dataArr.value = _.uniqBy(dataArr.value, 'code')
         // lodash 排序
         dataArr.value = _.sortBy(dataArr.value, 'id').reverse()
-        console.log(dataArr.value)
+        // console.log(dataArr.value)
       })
       .catch(error => {
         console.error(error)
       })
   } else {
-    axios.get(`http://localhost:8009/getall?did=${username}`)
-      .then( ({data}) => {
+      getall(username).then( ({data}) => {
         dataArr.value = data
         dataArr.value = _.uniqBy(dataArr.value, 'code')
         dataArr.value = _.sortBy(dataArr.value, 'id').reverse()
-        console.log(dataArr.value)
+        // console.log(dataArr.value)
         dataArr.value = _.filter(dataArr.value, (item) => {
           return _.some(item, (value) => {
             if (typeof value === 'string') {
@@ -134,26 +140,23 @@ let sendPid = ref(null)
 const columns = createColumns({
 
   // todo row.did替换成从锤子界面拿到doctor.username
-  async remove(row){
-    let res = await axios.post('http://localhost:8009/remove', {"code": row.code, "username": row.did})
-    console.log(res)
-    message.success("删除成功")
-    setTimeout(()=>{
-      getAll()
-    }, 500)
-  },
+  // drop
+  // async remove(row){
+  //   let res = await axios.post('http://localhost:8009/remove', {"code": row.code, "username": row.did})
+  //   console.log(res)
+  //   message.success("删除成功")
+  //   setTimeout(()=>{
+  //     getAll()
+  //   }, 500)
+  // },
 
   async looklook(row) {
     console.log(row)
-    let response = await axios.post(`http://localhost:8009/sendpid`, {"current_pid":row.code})
-    if (response.data.data.code === 500) {
-      message.error('queue is full')
-    } else {
-      message.success('jumping')
-      setTimeout(() => {
-        router.push('review')
-      }, 200)
-    }
+    let response = await sendpid({"current_pid":row.code})
+    message.success('jumping')
+    setTimeout(() => {
+      router.push('review')
+    }, 200)
   }
 })
 

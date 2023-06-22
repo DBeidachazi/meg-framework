@@ -20,19 +20,28 @@
 
 
 <script setup>
-import { h, handleError, onMounted, onUpdated, reactive, ref } from 'vue'
+import { h, onMounted, reactive, ref } from 'vue'
 import { NButton, useMessage } from 'naive-ui'
-import axios from 'axios'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
 import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
+import api from '@/views/api/index'
+
+const { getall, sendpid, insertPatient, upload, predict } = api
+
 
 const store = useStore()
 const username = localStorage.getItem('username')
 
 const search = ref('')
+watch(
+  search,
+  _.debounce((val) => {
+    searchPatients(val)
+  }, 500)
+)
 
 const handleSearchKeyUpEnter = () => {
   searchPatients()
@@ -48,8 +57,8 @@ const insertPatientInformation = () =>{
     content: ()=> h(PatientForm),
     positiveText: '提交',
     onPositiveClick:async ()=>{
-      let res = await axios.post("http://localhost:8009/insert_patient", store.getInformation())
-      console.log(res.data)
+      let res = await insertPatient(store.getInformation())
+      console.log(res)
       await getAll()
     }
   })
@@ -72,8 +81,7 @@ const paginationReactive = reactive({
 
 const getAll = async (isFilter)=>{
   if (typeof isFilter === 'undefined') {
-  axios.get(`http://localhost:8009/getall?did=${username}`)
-    .then( ({data}) => {
+    getall(username).then( ({data}) => {
       // 倒序排列
       dataArr.value = data.sort((a,b)=>b.id-a.id)
       // lodash 去重
@@ -84,8 +92,7 @@ const getAll = async (isFilter)=>{
       console.error(error)
     })
   } else {
-    axios.get(`http://localhost:8009/getall?did=${username}`)
-    .then( ({data}) => {
+    getall(username).then( ({data}) => {
       dataArr.value = _.reverse(data)
       dataArr.value = _.uniqBy(dataArr.value, 'code')
       // console.log(dataArr.value)
@@ -188,17 +195,14 @@ const columns = createColumns({
 
   async looklook(row) {
     console.log(row)
-    let response = await axios.post(`http://localhost:8009/sendpid`, {"current_pid":row.code})
-    if (response.data.data.code === 500) {
-      message.error('queue is full')
-    } else {
-      message.success('jumping')
-      setTimeout(() => {
-        router.push('review')
-      }, 200)
-    }
+    let response = await sendpid({"current_pid":row.code})
+    message.success('jumping')
+    setTimeout(() => {
+      router.push('review')
+    }, 200)
   }
 })
+
 
 // 上传文件点击事件触发后执行
 const uploadFile = async (event) => {
@@ -208,21 +212,22 @@ const uploadFile = async (event) => {
   try {
     $message.loading('上传中...')
     // todo get row
-    const response = await axios.post(`http://localhost:8009/upload?code=${sendPid.value}`, formData, {
+    console.log(sendPid.value)
+    const response = await upload(sendPid.value, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     })
     console.log(response.data)
-    if (response.data.data.code === 500) {
+    if (response.data.code === 500) {
       $message.error('上传失败')
       return
     }
     $message.success('上传成功')
     $message.loading('预测中,请耐心等待...')
-    const predict = await axios.get(`http://localhost:8009/predict?code=${sendPid.value}`)
-    console.log(predict.data)
-    if (predict.data.data.code === 500) {
+    let { data } = await predict(sendPid.value)
+    console.log(data)
+    if (data.code === 500) {
       $message.error('预测失败')
       return
     }
@@ -230,12 +235,13 @@ const uploadFile = async (event) => {
     await getAll()
   } catch (error) {
     console.error(error)
-    $message.error('上传失败')
+    $message.error(error.toString())
   }
 }
 
-const queryFile = async (code) => {
-  res.value = await axios.get(`http://localhost:8009/findFile?code=${code}`)
-  console.log(res.value.data.code)
-}
+// drop
+// const queryFile = async (code) => {
+  // res.value = await axios.get(`http://localhost:8009/findFile?code=${code}`)
+  // console.log(res.value.data.code)
+// }
 </script>

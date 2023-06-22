@@ -74,9 +74,11 @@
 import { lStorage, setToken } from '@/utils'
 import { useStorage } from '@vueuse/core'
 import bgImg from '@/assets/images/login_bg.webp'
-import api from './api'
+import api from '@/views/api/index'
 import { addDynamicRoutes } from '@/router'
 import { useUserStore } from '@/store'
+
+const { login } = api
 
 const userStore = useUserStore()
 
@@ -113,7 +115,7 @@ async function handleLogin() {
     loading.value = true
     $message.loading('正在验证...')
     // 修改这里的请求参数
-    const res = await api.login({ username, password })
+    const res = await login({ username, password })
     const { code, accessToken } = res.data
     console.log(res.data)
     if (code === 200 && res.data.token) {

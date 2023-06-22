@@ -1,7 +1,7 @@
 const proxyConfigMappings = {
   dev: {
     prefix: '/api',
-    target: 'http://localhost:8080',
+    target: 'http://localhost:8009',
   },
   test: {
     prefix: '/api',

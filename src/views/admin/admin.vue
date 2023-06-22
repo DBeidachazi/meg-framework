@@ -32,19 +32,25 @@
 
 
 <script setup>
-import { h, handleError, onMounted, onUpdated, reactive, ref } from 'vue'
+import { h, onMounted, reactive, ref } from 'vue'
 import { NButton, useMessage } from 'naive-ui'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
 import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
 import patient from "@/views/admin/patient.vue";
+import api from '@/views/api/index'
+
+const { getAllDoctor } = api
 
 const store = useStore()
 
 const search = ref('')
+watch(
+  search,
+  _.debounce((val) => {
+    searchPatients(val)
+  }, 500)
+)
 
 const handleSearchKeyUpEnter = () => {
   searchPatients()
@@ -74,8 +80,7 @@ const paginationReactive = reactive({
 
 const getAll = async (isFilter)=>{
   if (typeof isFilter === 'undefined') {
-    axios.get(`http://localhost:8009/admingetalldoctor`)
-      .then( ({data}) => {
+      getAllDoctor().then( ({data}) => {
         dataArr.value = data
         // console.log(data)
       })
@@ -83,8 +88,7 @@ const getAll = async (isFilter)=>{
         console.error(error)
       })
   } else {
-    axios.get(`http://localhost:8009/admingetalldoctor`)
-      .then( ({data}) => {
+      getAllDoctor().then( ({data}) => {
         dataArr.value = data
         dataArr.value = _.filter(dataArr.value, (item) => {
           return _.some(item, (value) => {
@@ -111,7 +115,7 @@ const createColumns = ({
                          looklook
                        }) => {
   return [
-    { title: '医生id', key: 'id' },
+    // { title: '医生id', key: 'id' },
     { title: '用户名', key: 'username' },
     {title: '姓名', key: 'name'},
     {title: '手机号', key: 'telephone'},

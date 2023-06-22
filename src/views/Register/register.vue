@@ -31,11 +31,11 @@
 
 #register {
   display: flex;
-  //flex-direction: column;
+  /* //flex-direction: column; */
   align-items: center;
   justify-content: center;
   min-height: 80%;
-  //margin: auto;
+  /* //margin: auto; */
   margin: 6rem 6rem 6rem 6rem;
 }
 
@@ -51,8 +51,8 @@ import { ref } from 'vue'
 import { router } from '@/router'
 import { Vue3Lottie } from 'vue3-lottie'
 import LottieJson from '@/assets/lottie/register_doctor_lottie.json'
-// import LottieJson from '@/assets/lottie/after.json'
-// import LottieJson from '@/assets/lottie/register_doctor_lottie.json'
+import api from '@/views/api/index'
+const { register } = api
 
 const message = useMessage()
 
@@ -83,25 +83,21 @@ const rules = ref({
 const submit = () => {
   formRef.value.validate().then(() => {
     // 发送请求示例
-    fetch('http://localhost:8009/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form.value)
-    }).then(res => res.json()).then(data => {
-      // 处理响应数据
-      console.log(data)
-      router.push('/admin_page')
-    }).catch(err => {
+    register(form.data)
+      .then(data => {
+        // 处理响应数据
+        console.log(data)
+        router.push('/admin_page')
+        $message.success('注册成功')
+      }).catch(err => {
       // 处理错误
-      console.error(err)
+        console.error(err)
+      })
+    }).catch(() => {
+      // 表单验证失败
+      message.error('表单验证失败')
     })
-  }).catch(() => {
-    // 表单验证失败
-    message.error('表单验证失败')
-  })
-}
+  }
 
 let formRef = ref(null)
 

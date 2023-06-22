@@ -43,6 +43,8 @@
 import { useUserStore } from '@/store';
 import * as echarts from 'echarts';
 import { onMounted } from 'vue'
+import api from '@/views/api/index'
+const { information } = api
 
 const userStore = useUserStore()
 // 获取后端返回的患者数据
@@ -54,10 +56,7 @@ onMounted(() => {
     renderer: 'canvas',
     useDirtyRect: false
   });
-  // 使用fetch()函数向后端发送GET请求
-  fetch('http://localhost:8009/information')
-    .then(response => response.json()) // 将响应转换为json格式
-    .then(data => {
+    information().then(({data}) => {
       console.log("data", data)
       // 使用data渲染echarts图表
       var option = {
