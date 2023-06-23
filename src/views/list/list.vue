@@ -224,14 +224,17 @@ const uploadFile = async (event) => {
       return
     }
     $message.success('上传成功')
-    $message.loading('预测中,请耐心等待...')
+    // $message.loading('预测中,请耐心等待...')
+    store.turnOnShadow('预测中,请耐心等待...')
     let { data } = await predict(sendPid.value)
     console.log(data)
     if (data.code === 500) {
-      $message.error('预测失败')
+      // $message.error('预测失败')
+      store.turnOffAndFailed('预测失败')
       return
     }
-    $message.success('预测成功')
+    // $message.success('预测成功')
+    store.turnOffAndSuccess('预测成功')
     await getAll()
   } catch (error) {
     console.error(error)

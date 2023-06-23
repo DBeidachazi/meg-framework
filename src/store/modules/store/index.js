@@ -3,13 +3,25 @@ import { reactive, ref } from 'vue'
 
 export const useStore = defineStore('store', () => {
   let requestShadow = ref(false)
+  let shadowSpan = ref('')
 
-  const turnOffShadow = () => {
-    requestShadow.value = false
+  const turnOffAndSuccess = (str) => {
+    shadowSpan.value = str
+    setTimeout(() => {
+      requestShadow.value = false
+    }, 1500)
   }
 
-  const turnOnShadow = () => {
+  const turnOffAndFailed = (str) => {
+    shadowSpan.value = str
+    setTimeout(() => {
+      requestShadow.value = false
+    }, 1500)
+  }
+
+  const turnOnShadow = (str) => {
     requestShadow.value = true
+    shadowSpan.value = str
   }
 
   let information = reactive({
@@ -36,9 +48,11 @@ export const useStore = defineStore('store', () => {
     name,
     username,
     requestShadow,
+    shadowSpan,
 
     turnOnShadow,
-    turnOffShadow,
+    turnOffAndSuccess,
+    turnOffAndFailed,
     setUserName,
     setInformation,
     getInformation,
