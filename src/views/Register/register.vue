@@ -83,7 +83,11 @@ const rules = ref({
 const submit = () => {
   formRef.value.validate().then(() => {
     // 发送请求示例
-    register(form.data)
+    register(form.value, {
+      headers: {
+      'Content-Type': 'application/json'
+    }
+  })
       .then(data => {
         // 处理响应数据
         console.log(data)
@@ -97,7 +101,7 @@ const submit = () => {
       // 表单验证失败
       message.error('表单验证失败')
     })
-  }
+}
 
 let formRef = ref(null)
 

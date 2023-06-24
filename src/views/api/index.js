@@ -9,6 +9,6 @@ export default {
   upload: (code, formData, headers) => request.post(`upload?code=${code}`, formData, headers),
   predict: (code) => request.get(`predict?code=${code}`, { timeout: 1e20 }),
 
-  register: (data) => request.post('register', data),
+  register: (data, headers) => request.post('register', data, headers),
   information: () => request.get('information'),
 }

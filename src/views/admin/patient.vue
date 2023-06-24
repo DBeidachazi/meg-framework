@@ -64,6 +64,7 @@ const paginationReactive = reactive({
 const getAll = async (isFilter)=>{
   if (typeof isFilter === 'undefined') {
       getall(username).then( ({data}) => {
+        console.log(data)
         dataArr.value = data
         // lodash 去重
         dataArr.value = _.uniqBy(dataArr.value, 'code')
@@ -119,7 +120,7 @@ const createColumns = ({
         return h(
           NButton,
           {
-            disabled: row.file_path === null,
+            disabled: row.file_path === 'null',
             strong: true,
             tertiary: true,
             size: 'small',

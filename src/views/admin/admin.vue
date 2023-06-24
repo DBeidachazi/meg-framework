@@ -127,7 +127,7 @@ const createColumns = ({
         return h(
           NButton,
           {
-            disabled: row.file_path === null,
+            disabled: row.file_path === 'null',
             strong: true,
             tertiary: true,
             size: 'small',

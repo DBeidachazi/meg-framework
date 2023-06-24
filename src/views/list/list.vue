@@ -83,7 +83,8 @@ const getAll = async (isFilter)=>{
   if (typeof isFilter === 'undefined') {
     getall(username).then( ({data}) => {
       // 倒序排列
-      dataArr.value = data.sort((a,b)=>b.id-a.id)
+      // dataArr.value = data.sort((a,b)=>b.id-a.id)
+      dataArr.value = data
       // lodash 去重
       dataArr.value = _.uniqBy(dataArr.value, 'code')
       // console.log(dataArr.value)
@@ -93,7 +94,8 @@ const getAll = async (isFilter)=>{
     })
   } else {
     getall(username).then( ({data}) => {
-      dataArr.value = _.reverse(data)
+      // dataArr.value = _.reverse(data)
+      dataArr.value = data
       dataArr.value = _.uniqBy(dataArr.value, 'code')
       // console.log(dataArr.value)
       dataArr.value = _.filter(dataArr.value, (item) => {
@@ -151,7 +153,7 @@ const createColumns = ({
         return h(
           NButton,
           {
-            disabled: row.file_path === null,
+            disabled: row.file_path === 'null',
             strong: true,
             tertiary: true,
             size: 'small',
