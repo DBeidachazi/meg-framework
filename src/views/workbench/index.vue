@@ -18,23 +18,31 @@
             <n-statistic label="总预测数量" ml-100 mr-100 w-120 :value="4">
               <template #suffix> / 10 </template>
             </n-statistic>
-            <!-- 我们可以插入一些logo进行美化 -->
-<!--            <n-statistic label="预计今日诊断" :value="4">-->
-<!--              <template #suffix> / 10 </template>-->
-<!--            </n-statistic>-->
           </div>
         </div>
+
+
+        <div flex mt-20>
+          <workbench-card value='hello13' title='📖 title'/>
+          <workbench-card :value='userStore.name' title='title'/>
+          <workbench-card value='2' title='title'/>
+          <workbench-card value='3' title='title'/>
+        </div>
+
       </n-card>
 
-      <div flex mt-20>
-        <n-card rounded-10 mr-5 h-120>23</n-card>
-        <n-card rounded-10 mx-5 h-120>23</n-card>
-        <n-card rounded-10 mx-5 h-120>23</n-card>
-        <n-card rounded-10 ml-5 h-120>45</n-card>
-      </div>
+
 
 <!--      图表-->
-      <div class="chart-container" ref="chartContainer"></div>
+        <div flex justify-center>
+          <n-card rounded-10 class="chart-container" style="flex-basis: 70%;" mr-10 px-10 pb-5>
+            <div  ref="chartContainer"></div>
+          </n-card>
+          <n-card rounded-10 class="chart-container2" style="flex-basis: 30%;">
+            <div ref="chartContainer"></div>
+          </n-card>
+        </div>
+        
     </div>
   </AppPage>
 </template>
@@ -44,18 +52,72 @@ import { useUserStore } from '@/store';
 import * as echarts from 'echarts';
 import { onMounted } from 'vue'
 import api from '@/views/api/index'
+import WorkbenchCard from '@/components/card/WorkbenchCard.vue'
 const { information } = api
 
 const userStore = useUserStore()
 // 获取后端返回的患者数据
 onMounted(() => {
-  // 获取echarts图表的容器
   let dom = document.getElementsByClassName('chart-container')[0];
-  // 初始化echarts图表
+  let dom2 = document.getElementsByClassName('chart-container2')[0];
+  let myBorderRaius = echarts.init(dom2, null, {
+    renderer: 'canvas',
+    useDirtyRect: false
+  });
   let myChart = echarts.init(dom, null, {
     renderer: 'canvas',
     useDirtyRect: false
   });
+
+
+  // 饼形图
+  let option = {
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      top: '5%',
+      left: 'center'
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: ['40%', '70%'],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: '#fff',
+          borderWidth: 2
+        },
+        label: {
+          show: false,
+          position: 'center'
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 40,
+            fontWeight: 'bold'
+          }
+        },
+        labelLine: {
+          show: false
+        },
+        data: [
+          { value: 1048, name: 'Search Engine' },
+          { value: 735, name: 'Direct' },
+          { value: 580, name: 'Email' },
+          { value: 484, name: 'Union Ads' },
+          // { value: 300, name: 'Video Ads' }
+        ]
+      }
+    ]
+  };
+
+
+
+
     information().then(({data}) => {
       console.log("data", data)
       // 使用data渲染echarts图表
@@ -76,9 +138,9 @@ onMounted(() => {
         },
         toolbox: {
           feature: {
-            dataZoom: {
-              yAxisIndex: 'none'
-            },
+            // dataZoom: {
+            //   yAxisIndex: 'none'
+            // },
             restore: {},
             saveAsImage: {}
           }
@@ -173,13 +235,24 @@ onMounted(() => {
       }
        window.addEventListener('resize', myChart.resize);
     })
+
+    option && myBorderRaius.setOption(option);
+    window.addEventListener('resize', myBorderRaius.resize);
 });
 
 
 </script>
 <style scoped>
 .chart-container {
-  margin-top: 6vh;
-  height: 50vh;
+  margin-top: 1vh;
+  padding-top: 2vh;
+  height: 56vh;
+
+}
+.chart-container2 {
+  margin-top: 1vh;
+  padding-top: 2vh;
+  height: 56vh;
+
 }
 </style>
