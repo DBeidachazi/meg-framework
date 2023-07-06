@@ -20,7 +20,20 @@
 import MdEditor from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 
+const props = defineProps({
+  row: String,
+})
+
 defineOptions({ name: 'MDEditor' })
+
+onMounted(() => {
+  post.value.content = `
+# xxx ${props.row} 诊断书
+
+`
+console.log(props.row);
+})
+
 
 // refs
 let post = ref({})

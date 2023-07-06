@@ -21,13 +21,16 @@
 
 <script setup>
 import { h, onMounted, reactive, ref } from 'vue'
-import { NButton, useMessage } from 'naive-ui'
+import { NButton, useMessage, useDialog } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
 import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
 import api from '@/views/api/index'
+import MdEditor from './MdEditor.vue'
+
+const dialog = useDialog()
 
 const { getall, sendpid, insertPatient, upload, predict } = api
 
@@ -120,7 +123,7 @@ onMounted(() => {
 
 
 const createColumns = ({
-  upload, looklook
+  upload, looklook, fillin
 }) => {
   return [
     // { title: '患者id', key: 'id' },
@@ -174,7 +177,7 @@ const createColumns = ({
             strong: true,
             tertiary: true,
             size: 'small',
-            onClick: () => looklook(row)
+            onClick: () => fillin(row)
           },
           { default: () => '填写' }
         )
@@ -188,7 +191,32 @@ let dataArr = ref([])
 let res = ref([])
 const message = useMessage()
 let sendPid = ref(null)
+
+const getVNode = (code) => {
+  return h(
+    MdEditor, {
+      row: code,
+    }
+  )
+}
+
 const columns = createColumns({
+
+  async fillin(row) {
+    const code = row.code
+    dialog.info({
+      title: "  填写诊断书",
+      style: { width: "80%", height: "100%" },
+      content: getVNode.bind(null, code),
+      // content: (code) => getVNode(code), 
+      icon: () => "✍",
+      // positiveText: "提交",
+      // onPositiveClick: () => {
+      //   message.success(row.age)
+      // }
+
+    })
+  },
 
   async upload(row) {
     fileInput.value.click()
