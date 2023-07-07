@@ -63,7 +63,10 @@ const createColumns = ({
 
 const data = [
   { type: "什么种类", callNumbers: "Wonderwall", DailyCallLimit: 23, callVolumes: 23 },
-  { type: 4, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
+  { type: 44, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
+  { type: 44, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
+  { type: 44, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
+  { type: 44, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
   { type: 12, callNumbers: "Champagne Supernova", DailyCallLimit: 333, callVolumes: 55 }
 ];
 

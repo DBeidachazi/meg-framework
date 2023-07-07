@@ -17,7 +17,7 @@ export default {
       path: 'admin_page',
       component: () => import('./admin.vue'),
       meta: {
-        title: 'AdminPage',
+        title: '管理页面',
         icon: 'mdi:hammer'
       }
     }

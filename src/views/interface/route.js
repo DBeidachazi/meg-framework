@@ -1,22 +1,22 @@
 const Layout = () => import('@/layout/index.vue')
 
 export default {
-  name: 'RegisterDoctor',
+  name: 'Interface',
   path: '/',
   component: Layout,
   meta: {
-    order: 12,
+    order: 14,
     role: ['admin'],
     requireAuth: true
   },
   children: [
     {
-      name: 'RegisterDoctor',
-      path: 'register_doctor',
-      component: () => import('./register.vue'),
+      name: 'Interface',
+      path: 'interface',
+      component: () => import('./interface.vue'),
       meta: {
-        title: '注册',
-        icon: 'mdi:human'
+        title: '接口文档',
+        icon: 'mdi:web'
       }
     }
   ]
