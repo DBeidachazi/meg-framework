@@ -5,7 +5,7 @@ export default {
   path: '/',
   component: Layout,
   meta: {
-    order: 13,
+    order: 20,
     role: ['editor'],
     requireAuth: true
   },

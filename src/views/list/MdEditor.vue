@@ -21,17 +21,55 @@ import MdEditor from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 
 const props = defineProps({
-  row: String,
+  code: String,
+  name: String,
+  sex:  String,
+  age:  String,
 })
 
 defineOptions({ name: 'MDEditor' })
 
 onMounted(() => {
   post.value.content = `
-# xxx ${props.row} 诊断书
+<center><h1>MedSego医疗数据解析平台</h1></center>
+<!--<div style="border: 2px solid green; padding: 10px;height: 80vh;">-->
+<div style="border: 2px solid green; padding: 10px;height: 80vh; display: flex; flex-direction: column;">
+<center><strong>医疗影像诊断书</strong></center>
+<hr style="border: 1px solid green; width: 100%;">
+<table>
+<tr >
+<td style="border: none;" width="20%"><strong>姓名:&nbsp ${props.name}</strong></td>
+<td style="border: none;" width="20%"><strong>性别:&nbsp ${props.sex}</strong></td>
+<td style="border: none;" width="20%"><strong>年龄:&nbsp ${props.age}</strong></td>
+</tr>
+</table>
+<hr style="border: 1px solid green; width: 100%;">
+<!--请输入诊断意见-->
+<strong>诊断意见:&nbsp 肝脏弥漫性低密度灶，考虑肿瘤可能性较大</strong>
+<hr style="border: 1px solid green; width: 100%;">
+<!--请输入诊断书的主题内容-->
 
+- 影像类型：腹腔X光片
+- 影像结果：肝脏增大，见弥漫性大小不等类圆形低密度影。
+- 诊断：肝脏肿瘤与肝钙化灶
+- 处理意见：
+  - 住院隔离治疗，给予抗病毒、抗感染、抗炎、支持等药物治疗。
+  - 定期复查血常规、尿常规、肝肾功能、心电图等指标。
+  - 注意休息，多饮水，保持良好的心态。
+<!--  <div>-->
+
+
+<div style="margin-top: auto;">
+  <table>
+<tr >
+<td style="border: none;" width="20%"><strong>医生签名:</strong>&nbsp 李四</td>
+<td style="border: none;" width="20%"><strong>日期:</strong>&nbsp 2023年7月6日</td>
+</tr>
+</table>
+</div>
+</div>
 `
-console.log(props.row);
+console.log(props.code);
 })
 
 

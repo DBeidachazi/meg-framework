@@ -192,10 +192,14 @@ let res = ref([])
 const message = useMessage()
 let sendPid = ref(null)
 
-const getVNode = (code) => {
+const getVNode = (row) => {
   return h(
     MdEditor, {
-      row: code,
+      code: row.code,
+      name: row.name,
+      sex:  row.sex,
+      age:  row.age,
+
     }
   )
 }
@@ -203,11 +207,11 @@ const getVNode = (code) => {
 const columns = createColumns({
 
   async fillin(row) {
-    const code = row.code
+    console.log(row)
     dialog.info({
       title: "  填写诊断书",
       style: { width: "80%", height: "100%" },
-      content: getVNode.bind(null, code),
+      content: getVNode.bind(null, row),
       // content: (code) => getVNode(code), 
       icon: () => "✍",
       // positiveText: "提交",
