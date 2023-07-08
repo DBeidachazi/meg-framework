@@ -19,7 +19,7 @@ export default {
       component: () => import('./myquota.vue'),
       meta: {
         title: '我的额度',
-        icon: 'mdi:book',
+        icon: 'mdi:cup',
         role: ['editor'],
         requireAuth: true,
         keepAlive: true
@@ -31,7 +31,7 @@ export default {
       component: () => import('./quotanalysis.vue'),
       meta: {
         title: '额度分析',
-        icon: 'mdi:book',
+        icon: 'mdi:poll',
         role: ['editor'],
         requireAuth: true,
         keepAlive: true

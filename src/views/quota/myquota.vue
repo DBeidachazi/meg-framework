@@ -1,7 +1,7 @@
 <template>
   <div f-c-c>
     <n-card title="我的额度" bordered mx-10 my-10 rounded-10>
-      <n-data-table :columns="columns" :data="data" :pagination="pagination" :bordered="false" align="center" />
+      <n-data-table :columns="columns" :data="data" :pagination="pagination" :bordered="false"/>
     </n-card>
   </div>
 </template>
@@ -9,11 +9,12 @@
 <script setup>
 import { h } from "vue";
 import { NButton, useMessage, NProgress } from "naive-ui";
+import { router } from '@/router'
 
 
 
 const createColumns = ({
-  play
+  play, goToReview
 }) => {
   return [
     {
@@ -61,14 +62,14 @@ const createColumns = ({
     {
       title: "活动",
       key: "活动",
-      render(row) {
+      render() {
         return h(
           NButton,
           {
             strong: true,
             tertiary: true,
             size: "small",
-            onClick: () => play(row)
+            onClick: () => goToReview()
           },
           { default: () => "去阅片" }
         );
@@ -90,7 +91,10 @@ const data = [
 const message = useMessage();
 let columns = createColumns({
   play(row) {
-    message.info(`Play ${row.title}`);
+    message.success(`申请成功`);
+  },
+  goToReview() {
+    router.push("/review")
   }
 })
 let pagination = false

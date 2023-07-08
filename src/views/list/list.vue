@@ -1,14 +1,14 @@
 <template>
   <n-space vertical :size="12" my-14 mx-10>
     <n-space mx-20>
-      <n-button type='primary' @click="insertPatientInformation">插入病人信息</n-button>
+      <n-button type='primary' @click="insertPatientInformation">新增病人信息</n-button>
       <n-input  placeholder="搜索" v-model:value='search' passively-activated @keyup.enter='handleSearchKeyUpEnter' clearable>
         <template #suffix>
           <n-icon :component="FlashOutline" />
         </template>
       </n-input>
 
-      <n-button type='success' @click="searchPatients">查询病人信息</n-button>
+<!--      <n-button type='success' @click="searchPatients">查询病人信息</n-button>-->
 <!--      <n-button type='error' @click="clearFilters">Clear Filters</n-button>-->
 <!--      <n-button type='warning' @click="clearSorter">Clear Sorter</n-button>-->
     </n-space>
@@ -21,7 +21,7 @@
 
 <script setup>
 import { h, onMounted, reactive, ref } from 'vue'
-import { NButton, useMessage, useDialog } from 'naive-ui'
+import { NButton, useMessage, useDialog} from 'naive-ui'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
@@ -123,7 +123,7 @@ onMounted(() => {
 
 
 const createColumns = ({
-  upload, looklook, fillin
+  upload, looklook, fillin, selectOneOrTwo
 }) => {
   return [
     // { title: '患者id', key: 'id' },
@@ -160,7 +160,7 @@ const createColumns = ({
             strong: true,
             tertiary: true,
             size: 'small',
-            onClick: () => looklook(row)
+            onClick: () => selectOneOrTwo(row)
           },
           { default: () => '查看' }
         )
@@ -204,7 +204,54 @@ const getVNode = (row) => {
   )
 }
 
+const getVNodeButton = (row) => {
+  return [
+      h(NButton, {
+        strong: true,
+        tertiary: true,
+        size: 'small',
+        onClick: () => looklook(row, "one"),
+        style: {
+          backgroundColor: '#4CAF50',
+          color: 'white',
+          marginRight: '10.25rem',
+          marginLeft: '24rem'
+        },
+
+      }, '查看一个'),
+      h(NButton, {
+        strong: true,
+        tertiary: true,
+        size: 'small',
+        style: {
+          marginTop: "2rem",
+          marginLeft: 'auto'
+        },
+        onClick: () => looklook(row, "two")
+      }, '查看两个')
+    ]
+}
+const looklook = async(row, type) => {
+    console.log(row)
+    let response = await sendpid({"current_pid":row.code})
+    message.success('jumping')
+    setTimeout(() => {
+      store.setReviewType(type)
+      router.push('review')
+    }, 200)
+    dialog.destroyAll()
+  }
+
 const columns = createColumns({
+
+  async selectOneOrTwo(row) {
+    console.log(row)
+    dialog.info({
+      title: "xuanze",
+      content: getVNodeButton.bind(null, row),
+      icon: () => ""
+    })
+  },
 
   async fillin(row) {
     console.log(row)

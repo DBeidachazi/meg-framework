@@ -44,12 +44,19 @@ export const useStore = defineStore('store', () => {
     username.value = name
   }
 
+  let reviewType = ref("one")
+  const setReviewType = (type) => {
+    reviewType.value = type
+  }
+
   return {
     name,
     username,
     requestShadow,
     shadowSpan,
+    reviewType,
 
+    setReviewType,
     turnOnShadow,
     turnOffAndSuccess,
     turnOffAndFailed,
