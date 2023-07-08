@@ -17,11 +17,11 @@ const createColumns = ({
 }) => {
   return [
     {
-      title: "请求类别",
+      title: "工作日期",
       key: "type"
     },
     {
-      title: "本月调用量",
+      title: "今日的分割量",
       key: "title",
       render(row) {
         return h(
@@ -35,16 +35,16 @@ const createColumns = ({
       }
     },
     {
-      title: "今日调用次数",
+      title: "今日分割次数",
       key: "callNumbers"
     },
     {
-      title: "每日调用额度(次/天)",
+      title: "每日分割额度(次/天)",
       key: "DailyCallLimit",
     },
     {
-      title: "actions",
-      key: "actions",
+      title: "申请增加分割次数",
+      key: "申请增加分割次数",
       render(row) {
         return h(
           NButton,
@@ -54,20 +54,37 @@ const createColumns = ({
             size: "small",
             onClick: () => play(row)
           },
-          { default: () => "Play" }
+          { default: () => "申请" }
         );
       }
-    }
+    },
+    {
+      title: "活动",
+      key: "活动",
+      render(row) {
+        return h(
+          NButton,
+          {
+            strong: true,
+            tertiary: true,
+            size: "small",
+            onClick: () => play(row)
+          },
+          { default: () => "去阅片" }
+        );
+      }
+    },
   ];
 };
 
 const data = [
-  { type: "什么种类", callNumbers: "Wonderwall", DailyCallLimit: 23, callVolumes: 23 },
-  { type: 44, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
-  { type: 44, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
-  { type: 44, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
-  { type: 44, callNumbers: "Don't Look Back in Anger", DailyCallLimit: 123, callVolumes: 44 },
-  { type: 12, callNumbers: "Champagne Supernova", DailyCallLimit: 333, callVolumes: 55 }
+  { type: "周一", callNumbers:  "25", DailyCallLimit: 100, callVolumes: 25 },
+  { type: "周二", callNumbers:  "35", DailyCallLimit: 100, callVolumes: 35 },
+  { type: "周三", callNumbers:  "50", DailyCallLimit: 100, callVolumes: 50 },
+  { type: "周四", callNumbers: "60", DailyCallLimit: 100, callVolumes: 60 },
+  { type: "周五", callNumbers: "75", DailyCallLimit: 100, callVolumes: 75 },
+  { type: "周六", callNumbers: "33", DailyCallLimit: 100, callVolumes: 33 },
+  { type: "周日", callNumbers: "22", DailyCallLimit: 100, callVolumes: 22 },
 ];
 
 const message = useMessage();
