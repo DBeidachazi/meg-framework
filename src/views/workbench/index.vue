@@ -23,9 +23,9 @@
 
 
         <div flex mt-20>
-          <workbench-card value='hello13' title='📖 title'/>
-          <workbench-card :value='userStore.name' title='title'/>
-          <workbench-card value='2' title='title'/>
+          <workbench-card value='hello134' title='📖 title' imgurl="http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg"/>
+          <workbench-card value='hello134' title='📖 title' imgurl="http://tva1.sinaimg.cn/large/006Hj19Tly1hfprwhsxhgj30d60d6gm2.jpg"/>
+          <workbench-card value='2' title='title' imgurl="http://tva1.sinaimg.cn/large/006Hj19Tly1hfprwvjg3qj301c01cglg.jpg"/>
           <workbench-card value='3' title='title'/>
         </div>
 
@@ -54,6 +54,8 @@ import { onMounted } from 'vue'
 import api from '@/views/api/index'
 import WorkbenchCard from '@/components/card/WorkbenchCard.vue'
 const { information } = api
+
+const testUrl = () => require('@/assets/svg/patient.svg')
 
 const userStore = useUserStore()
 // 获取后端返回的患者数据

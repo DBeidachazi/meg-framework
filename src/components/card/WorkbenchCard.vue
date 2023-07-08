@@ -3,15 +3,24 @@
           :title='props.title'
           embedded
   >
-    {{props.value}}
+
+    <div flex justify-between >
+      <span  style='font-size: 6rem'>
+        {{props.value}}
+      </span>
+      <n-avatar :size="65" :src="props.imgurl" style="position: relative;bottom: 9rem"/>
+    </div>
   </n-card>
 </template>
 
 <script setup lang='ts'>
-
-const imgUrl:string = 'http://p3-armor.byteimg.com/tos-cn-i-49unhts6dw/c8b36e26d2b9bb5dbf9b74dd6d7345af.svg~tplv-49unhts6dw-image.image'
 const props = defineProps({
   title: String,
   value: String,
+  imgurl: String,
+})
+onMounted(() => {
+  console.log(props.imgurl)
+  console.log(props)
 })
 </script>
