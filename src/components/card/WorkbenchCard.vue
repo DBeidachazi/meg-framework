@@ -1,17 +1,33 @@
 <template>
-  <n-card rounded-10 mr-10 h-120
-          :title='props.title'
-          embedded
-  >
+  <!--  todo 布局可能会修改-->
 
-    <div flex justify-between>
-      <span  style='font-size: 6rem' block w-250>
-        {{props.value}}
-      </span>
-<!--      <n-avatar :size="65" :src="props.imgurl" style="position: relative;bottom: 9rem"/>-->
-      <vue3-lottie :animation-data='props.lottie' style='position: relative; bottom: 16rem; width: 60%'/>
+  <n-card rounded-10 mx-5 h-120 embedded>
+  <div style="display: flex; justify-content: space-between; height: 100%;">
+    <div style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div style="font-size: 20px;">{{ props.title }}</div>
+      <div style="font-size: 16px;">{{ props.value }}</div>
     </div>
-  </n-card>
+    <!-- todo 删除背景和边框 -->
+    <div h-80 w-100 bg-amber style="border: 1px solid black;">
+      <vue3-lottie :animation-data="props.lottie" style="width: 100%; height: 100%; object-fit: contain;" />
+    </div>
+  </div>
+</n-card>
+
+
+  <!--  <n-card rounded-10 mr-10 h-120-->
+  <!--          :title='props.title'-->
+  <!--          embedded-->
+  <!--  >-->
+
+  <!--    <div flex justify-between>-->
+  <!--      <span  style='font-size: 6rem' block w-250>-->
+  <!--        {{props.value}}-->
+  <!--      </span>-->
+  <!--&lt;!&ndash;      <n-avatar :size="65" :src="props.imgurl" style="position: relative;bottom: 9rem"/>&ndash;&gt;-->
+  <!--      <vue3-lottie :animation-data='props.lottie' style='position: relative; bottom: 16rem; width: 60%'/>-->
+  <!--    </div>-->
+  <!--  </n-card>-->
 </template>
 
 <script setup lang='ts'>
@@ -23,8 +39,5 @@ const props = defineProps({
   imgurl: String,
   lottie: Object,
 })
-onMounted(() => {
-  console.log(props.imgurl)
-  console.log(props)
-})
+
 </script>
