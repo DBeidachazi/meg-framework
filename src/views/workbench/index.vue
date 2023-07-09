@@ -23,8 +23,8 @@
 
 
         <div flex mt-20>
-          <workbench-card value='hello134' title='📖 title' imgurl="http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg"/>
-          <workbench-card value='hello134' title='📖 title' imgurl="http://tva1.sinaimg.cn/large/006Hj19Tly1hfprwhsxhgj30d60d6gm2.jpg"/>
+          <workbench-card value='hello134' :lottie='gear' title='📖 title' imgurl="http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg"/>
+          <workbench-card value='hello134' :lottie='doctor' title='📖 title' imgurl="http://tva1.sinaimg.cn/large/006Hj19Tly1hfprwhsxhgj30d60d6gm2.jpg"/>
           <workbench-card value='2' title='title' imgurl="http://tva1.sinaimg.cn/large/006Hj19Tly1hfprwvjg3qj301c01cglg.jpg"/>
           <workbench-card value='3' title='title'/>
         </div>
@@ -53,6 +53,9 @@ import * as echarts from 'echarts';
 import { onMounted } from 'vue'
 import api from '@/views/api/index'
 import WorkbenchCard from '@/components/card/WorkbenchCard.vue'
+import gear from '@/assets/lottie/gear-loader.json'
+import doctor from '@/assets/lottie/register_doctor_lottie.json'
+
 const { information } = api
 
 const testUrl = () => require('@/assets/svg/patient.svg')
