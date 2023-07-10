@@ -215,10 +215,10 @@ const getVNodeButton = (row) => {
           backgroundColor: '#4CAF50',
           color: 'white',
           marginRight: '10.25rem',
-          marginLeft: '24rem'
+          marginLeft: '32rem'
         },
 
-      }, '查看一个'),
+      }, '原始'),
       h(NButton, {
         strong: true,
         tertiary: true,
@@ -227,8 +227,8 @@ const getVNodeButton = (row) => {
           marginTop: "2rem",
           marginLeft: 'auto'
         },
-        onClick: () => looklook(row, "two")
-      }, '查看两个')
+      onClick: () => looklook(row, "two")
+      }, '对比'),
     ]
 }
 const looklook = async(row, type) => {
@@ -247,7 +247,7 @@ const columns = createColumns({
   async selectOneOrTwo(row) {
     console.log(row)
     dialog.info({
-      title: "xuanze",
+      title: "选择查看类型",
       content: getVNodeButton.bind(null, row),
       icon: () => ""
     })
