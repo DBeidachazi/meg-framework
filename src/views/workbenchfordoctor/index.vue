@@ -11,22 +11,22 @@
           </div>
           <div ml-auto flex items-center>
             <!-- 待诊断病人 -->
-            <n-statistic label="今日已预测数量" :value="4">
-              <template #suffix> / 10 </template>
+            <n-statistic label="今日已分割的数量" :value="4">
+              <template #suffix> / 100 </template>
             </n-statistic>
             <!-- 待分割的图像数量 -->
-            <n-statistic label="总预测数量" ml-100 mr-100 w-120 :value="4">
-              <template #suffix> / 10 </template>
+            <n-statistic label="剩余分割的额度" ml-100 mr-100 w-120 :value="96">
+              <template #suffix> / 100 </template>
             </n-statistic>
           </div>
         </div>
 
 
         <div flex mt-20>
-          <workbench-card value='hello13' title='📖 title'/>
-          <workbench-card :value='userStore.name' title='title'/>
-          <workbench-card value='2' title='title'/>
-          <workbench-card value='3' title='title'/>
+          <workbench-card value='人数: 4人' :lottie='patient' title='●患者就诊人数统计' />
+          <workbench-card value='次数：4次' :lottie='load' title='●模型调用的次数' />
+          <workbench-card value='次数：4次' :lottie='fenge' title='分割的次数' />
+          <workbench-card value='数量：4次' :lottie='report' title='●诊断书的数量' />
         </div>
 
       </n-card>
@@ -53,7 +53,20 @@ import * as echarts from 'echarts';
 import { onMounted } from 'vue'
 import api from '@/views/api/index'
 import WorkbenchCard from '@/components/card/WorkbenchCard.vue'
+// import gear from '@/assets/lottie/gear-loader.json'
+import doctor from '@/assets/lottie/register_doctor_lottie.json'
+import patient from '@/assets/lottie/doctor/number_patient.json'
+import fenge from '@/assets/lottie/doctor/number_fenge.json'
+import report from '@/assets/lottie/doctor/number_report.json'
+import load from '@/assets/lottie/doctor/model_load.json'
+
+
 const { information } = api
+
+
+
+
+
 
 const userStore = useUserStore()
 // 获取后端返回的患者数据

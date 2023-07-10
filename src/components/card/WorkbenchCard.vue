@@ -1,14 +1,15 @@
 <template>
   <!--  todo 布局可能会修改-->
 
-  <n-card rounded-10 mx-5 h-120 embedded>
+  <n-card rounded-10 mx-5 h-150 embedded>
   <div style="display: flex; justify-content: space-between; height: 100%;">
     <div style="display: flex; flex-direction: column; justify-content: space-between;">
-      <div style="font-size: 20px;">{{ props.title }}</div>
-      <div style="font-size: 16px;">{{ props.value }}</div>
+      <div style="font-size: 20px; font-weight: bold">{{ props.title }}</div>
+      <div style="font-size: 18px; position: relative; top: -4rem">{{ props.value }}</div>
+<!--      position: relative; top: -1rem-->
     </div>
     <!-- todo 删除背景和边框 -->
-    <div h-80 w-100 bg-amber style="border: 1px solid black;">
+    <div h-80 w-100 bg-white style="display:flex; border: 1px solid white; transform:scale(1.7);position: relative;top: 4rem;right: 4rem">
       <vue3-lottie :animation-data="props.lottie" style="width: 100%; height: 100%; object-fit: contain;" />
     </div>
   </div>

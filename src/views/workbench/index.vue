@@ -11,11 +11,11 @@
           </div>
           <div ml-auto flex items-center>
             <!-- 待诊断病人 -->
-            <n-statistic label="今日已预测数量" :value="4">
+            <n-statistic label="今日申请的人数" :value="10">
               <template #suffix> / 10 </template>
             </n-statistic>
             <!-- 待分割的图像数量 -->
-            <n-statistic label="总预测数量" ml-100 mr-100 w-120 :value="4">
+            <n-statistic label="通过申请的人数" ml-100 mr-100 w-120 :value="4">
               <template #suffix> / 10 </template>
             </n-statistic>
           </div>
@@ -23,10 +23,10 @@
 
 
         <div flex mt-20>
-          <workbench-card value='hello134' :lottie='gear' title='📖 title' imgurl="http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg"/>
-          <workbench-card value='hello134' :lottie='doctor' title='📖 title' imgurl="http://tva1.sinaimg.cn/large/006Hj19Tly1hfprwhsxhgj30d60d6gm2.jpg"/>
-          <workbench-card value='2' title='title' imgurl="http://tva1.sinaimg.cn/large/006Hj19Tly1hfprwvjg3qj301c01cglg.jpg"/>
-          <workbench-card value='3' title='title'/>
+          <workbench-card value='人数：4人' :lottie='doctor_patient' title='●患者的总人数' />
+          <workbench-card value='人数：3人' :lottie='aply' title='●申请额度的总人数'/>
+          <workbench-card value='次数：4次' :lottie='load' title='●模型的调用次数' />
+          <workbench-card value='次数：4次' :lottie='fenge' title='●分割的次数'/>
         </div>
 
       </n-card>
@@ -55,6 +55,12 @@ import api from '@/views/api/index'
 import WorkbenchCard from '@/components/card/WorkbenchCard.vue'
 import gear from '@/assets/lottie/gear-loader.json'
 import doctor from '@/assets/lottie/register_doctor_lottie.json'
+import doctor_patient from '@/assets/lottie/admin/number_doctor_patient.json'
+import aply from '@/assets/lottie/admin/number_aply.json'
+import fenge from '@/assets/lottie/doctor/number_fenge.json'
+import load from '@/assets/lottie/doctor/model_load.json'
+
+
 
 const { information } = api
 
