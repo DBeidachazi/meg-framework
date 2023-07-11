@@ -1,7 +1,7 @@
 <template>
   <!--  todo 布局可能会修改-->
 
-  <n-card rounded-10 mx-5 h-150 embedded>
+  <n-card rounded-10 mx-5 h-150 embedded >
   <div style="display: flex; justify-content: space-between; height: 100%;">
     <div style="display: flex; flex-direction: column; justify-content: space-between;">
       <div style="font-size: 20px; font-weight: bold">{{ props.title }}</div>
