@@ -25,7 +25,7 @@
         <div flex mt-20>
           <workbench-card value='人数: 4人' :lottie='patient' title='●患者就诊人数统计' />
           <workbench-card value='次数：4次' :lottie='load' title='●模型调用的次数' />
-          <workbench-card value='次数：4次' :lottie='fenge' title='分割的次数' />
+          <workbench-card value='次数：4次' :lottie='fenge' title='●分割的次数' />
           <workbench-card value='数量：4次' :lottie='report' title='●诊断书的数量' />
         </div>
 
@@ -94,7 +94,8 @@ onMounted(() => {
     },
     series: [
       {
-        name: 'Access From',
+        // Access From
+        name: '来源',
         type: 'pie',
         radius: ['40%', '70%'],
         avoidLabelOverlap: false,
@@ -118,10 +119,10 @@ onMounted(() => {
           show: false
         },
         data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
+          { value: 4, name: '●患者人数统计' },
+          { value: 4, name: '●模型调用次数' },
+          { value: 4, name: '●分割的次数' },
+          { value: 4, name: '●诊断书数量' },
           // { value: 300, name: 'Video Ads' }
         ]
       }

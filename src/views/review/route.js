@@ -13,7 +13,7 @@ export default {
       path: 'review',
       component: () => import('./index.vue'),
       meta: {
-        title: '阅片',
+        title: '阅片与分割',
         icon: 'mdi:eye',
       }
     }

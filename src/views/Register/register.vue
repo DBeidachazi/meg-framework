@@ -1,7 +1,7 @@
 <template>
     <div id='register'>
       <vue3-lottie :animationData='LottieJson' />
-      <n-card id='card' title='Apply Doctor Account'>
+      <n-card id='card' title='申请医生账户'>
         <n-form :model='form' :rules='rules' ref='formRef'
                 style='display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;'>
           <n-form-item class='n-form-item' label='用户名' path='username'>
