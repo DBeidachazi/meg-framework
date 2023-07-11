@@ -103,7 +103,7 @@ onMounted(() => {
 
 
 const createColumns = ({
-                         remove, looklook
+                         remove, looklook,
                        }) => {
   return [
     // { title: '患者id', key: 'id' },
@@ -130,6 +130,7 @@ const createColumns = ({
         )
       }
     },
+
   ]
 }
 
@@ -158,7 +159,7 @@ const columns = createColumns({
     setTimeout(() => {
       router.push('review')
     }, 200)
-  }
+  },
 })
 
 

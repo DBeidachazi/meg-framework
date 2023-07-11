@@ -2,10 +2,10 @@
   <div f-c-c>
     <n-card title="额度分析" bordered mx-10 my-10 rounded-10>
       <div f-c-c>
-        <WorkbenchCard title="title" value="123321" />
-        <WorkbenchCard title="title" />
-        <WorkbenchCard />
-        <WorkbenchCard />
+        <WorkbenchCard title="●今日分割量" value="123321" />
+        <WorkbenchCard title="●今日分割次数" />
+        <WorkbenchCard title='●每日分割额度'/>
+        <WorkbenchCard title='●申请增加额度的次数'/>
       </div>
     </n-card>
   </div>

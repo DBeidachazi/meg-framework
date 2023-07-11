@@ -211,13 +211,15 @@ onMounted(() => {
         ],
         yAxis: [
           {
-            name: 'male',
+            // male
+            name: '男性',
             type: 'value',
             max: data.max
           },
           {
+            // female
             gridIndex: 1,
-            name: 'female',
+            name: '女性',
             type: 'value',
             inverse: true
           }

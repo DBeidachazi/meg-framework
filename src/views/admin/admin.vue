@@ -112,7 +112,7 @@ onMounted(() => {
 
 
 const createColumns = ({
-                         looklook
+                         looklook, aply,
                        }) => {
   return [
     // { title: '医生id', key: 'id' },
@@ -137,6 +137,27 @@ const createColumns = ({
         )
       }
     },
+    {
+      // 添加一个额度输入框，确认增加按钮
+      // admin输入增加的额度
+      // 点击增加按钮后增加额度
+      title: '管理申请额度',
+      key: 'aply',
+      render(row) {
+        // console.log(row.file_path)
+        return h(
+          NButton,
+          {
+            disabled: row.file_path === 'null',
+            strong: true,
+            tertiary: true,
+            size: 'small',
+            onClick: () => aply(row)
+          },
+          { default: () => '增加' }
+        )
+      }
+    },
   ]
 }
 
@@ -148,7 +169,12 @@ const columns = createColumns({
   async looklook(row) {
     store.setUserName(row.username)
     showPatient()
-  }
+  },
+  async aply(row) {
+    // store.setUserName(row.username)
+    // showPatient()
+    alert('已经增加额度')
+  },
 })
 
 // 是否显示病人列表
