@@ -3,6 +3,7 @@
     注册
   </span>
 
+<!--apply-agree-->
 
   <n-modal
     v-model:show="showModal"
