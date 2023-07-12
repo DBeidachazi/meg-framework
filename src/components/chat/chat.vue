@@ -10,7 +10,7 @@
           </template>
         </n-button>
       </template>
-      <iframe src='http://localhost:8009/static/ai' frameborder='0' style='height: 180rem; width: 110rem'></iframe>
+      <iframe :src='url' frameborder='0' style='height: 180rem; width: 110rem'></iframe>
     </n-popover>
   </n-space>
 </template>
@@ -18,6 +18,10 @@
 <script setup>
 import { defineComponent, ref, watch } from 'vue'
 import { Chatbubble } from "@vicons/ionicons5"
+import {getProxyConfig} from '~/settings'
+
+const url = getProxyConfig().target + "/static/ai"
+
 let showPopover =  ref(false)
 let color = ref('background: white')
 
