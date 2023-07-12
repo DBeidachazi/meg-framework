@@ -1,22 +1,22 @@
 const Layout = () => import('@/layout/index.vue')
 
 export default {
-  name: 'Readme',
+  name: '个人中心',
   path: '/',
   component: Layout,
   meta: {
-    order: 21,
+    order: 20,
     role: ['editor'],
     requireAuth: true
   },
   children: [
     {
-      name: 'Readme',
-      path: 'readme',
-      component: () => import('./readme.vue'),
+      name: '个人中心',
+      path: 'personal',
+      component: () => import('./personal.vue'),
       meta: {
-        title: '使用教程',
-        icon: 'mdi:book',
+        title: '个人中心',
+        icon: 'mdi:people',
       }
     }
   ]

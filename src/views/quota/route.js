@@ -24,18 +24,6 @@ export default {
         requireAuth: true,
         keepAlive: true
       }
-    },
-    {
-      name: 'Quota',
-      path: 'quotanalysis',
-      component: () => import('./quotanalysis.vue'),
-      meta: {
-        title: '额度分析',
-        icon: 'mdi:poll',
-        role: ['editor'],
-        requireAuth: true,
-        keepAlive: true
-      }
     }
   ]
 }

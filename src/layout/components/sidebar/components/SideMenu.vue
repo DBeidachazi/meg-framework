@@ -10,11 +10,13 @@
     :value="activeKey"
     @update:value="handleMenuSelect"
   />
+  <Chat style="position: fixed; bottom: 7rem; left: 9rem"></Chat>
 </template>
 
 <script setup>
 import { usePermissionStore, useAppStore } from '@/store'
 import { renderCustomIcon, renderIcon, isExternal, request } from '@/utils'
+import Chat from '@/components/chat/chat.vue'
 
 const router = useRouter()
 const curRoute = useRoute()
