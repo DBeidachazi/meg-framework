@@ -21,7 +21,7 @@
 
 <script setup>
 import { h, onMounted, reactive, ref } from 'vue'
-import { NButton, useMessage, useDialog} from 'naive-ui'
+import { NButton, useMessage, useDialog } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
@@ -270,8 +270,17 @@ const columns = createColumns({
   },
 
   async upload(row) {
-    fileInput.value.click()
-    sendPid.value = row.code
+    dialog.info({
+      title: "nihao1",
+      style: { },
+      content: "123,",
+      onAfterLeave: () => {
+        fileInput.value.click()
+        sendPid.value = row.code
+      }
+    })
+    // fileInput.value.click()
+    // sendPid.value = row.code
   },
 
   async looklook(row) {

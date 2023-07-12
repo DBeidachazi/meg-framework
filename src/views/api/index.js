@@ -11,4 +11,7 @@ export default {
 
   register: (data, headers) => request.post('register', data, headers),
   information: () => request.get('information'),
+
+  fetchData: (username)=>request.get(`quota_inquiry?username=${username}`),
+
 }

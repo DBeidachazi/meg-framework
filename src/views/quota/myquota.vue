@@ -1,21 +1,25 @@
 <template>
   <div f-c-c>
     <n-card title="我的额度" bordered mx-10 my-10 rounded-10>
-      <n-data-table :columns="columns" :data="data" :pagination="pagination" :bordered="false"/>
+      <n-data-table :columns="columns" :data="data.value" :pagination="pagination" :bordered="false"/>
     </n-card>
   </div>
 </template>
 
 <script setup>
-import { h } from "vue";
+import { h, onMounted, reactive } from 'vue'
 import { NButton, useMessage, NProgress } from "naive-ui";
 import { router } from '@/router'
+import axios from 'axios'
+import api from '@/views/api/index'
+import { useStore } from '@/store/modules/store'
 
-
-
+const { fetchData } = api
+const store = useStore()
+const username = localStorage.getItem('username')
 const createColumns = ({
-  play, goToReview
-}) => {
+                         play, goToReview
+                       }) => {
   return [
     {
       title: "工作日期",
@@ -78,15 +82,6 @@ const createColumns = ({
   ];
 };
 
-const data = [
-  { type: "周一", callNumbers:  "25", DailyCallLimit: 100, callVolumes: 25 },
-  { type: "周二", callNumbers:  "35", DailyCallLimit: 100, callVolumes: 35 },
-  { type: "周三", callNumbers:  "50", DailyCallLimit: 100, callVolumes: 50 },
-  { type: "周四", callNumbers: "60", DailyCallLimit: 100, callVolumes: 60 },
-  { type: "周五", callNumbers: "75", DailyCallLimit: 100, callVolumes: 75 },
-  { type: "周六", callNumbers: "33", DailyCallLimit: 100, callVolumes: 33 },
-  { type: "周日", callNumbers: "22", DailyCallLimit: 100, callVolumes: 22 },
-];
 
 const message = useMessage();
 let columns = createColumns({
@@ -98,4 +93,21 @@ let columns = createColumns({
   }
 })
 let pagination = false
+
+let data = reactive([])
+// console.log(data)
+const getData=async ()=>{
+  try {
+    let response = await fetchData(username)
+    console.log(response)
+    data.value  = response.data
+  } catch (error) {
+    // 处理错误
+    console.log(error)
+  }
+}
+
+onMounted(()=>{
+  getData()
+})
 </script>
