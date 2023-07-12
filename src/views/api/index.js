@@ -14,4 +14,5 @@ export default {
 
   fetchData: (username)=>request.get(`quota_inquiry?username=${username}`),
 
+  queryCase: (cid) => request.get(`query_case?cid=${cid}`),
 }
