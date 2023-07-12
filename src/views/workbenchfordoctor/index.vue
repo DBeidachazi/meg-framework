@@ -147,7 +147,7 @@ onMounted(() => {
           }
         },
         legend: {
-          data: ['male', 'female'],
+          data: ['男', '女'],
           left: 10
         },
         toolbox: {
@@ -213,27 +213,27 @@ onMounted(() => {
         ],
         yAxis: [
           {
-            name: 'male',
+            name: '男',
             type: 'value',
             max: data.max
           },
           {
             gridIndex: 1,
-            name: 'female',
+            name: '女',
             type: 'value',
             inverse: true
           }
         ],
         series: [
           {
-            name: 'male',
+            name: '男',
             type: 'line',
             symbolSize: 8,
             // prettier-ignore
             data: data.series[0].data
           },
           {
-            name: 'female',
+            name: '女',
             type: 'line',
             xAxisIndex: 1,
             yAxisIndex: 1,
