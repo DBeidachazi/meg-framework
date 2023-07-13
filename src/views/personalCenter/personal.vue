@@ -3,11 +3,17 @@
     <n-card rounded-10 >
       <div flex items-center>
         <img :src='userStore.avatar' width='100' alt='' rounded-full>
-        <div mx-200>
-          <span>用户名：{{ userInfo.username }}</span>
+        <div mx-150>
+          <div>
+            <span>用户名：{{ userInfo.username }}</span><br>
+            <span>账号ID：{{ userInfo.id }}</span><br>
+            <span>姓&nbsp;&nbsp;&nbsp;&nbsp;名：{{ userInfo.nickname }}</span>
+          </div>
         </div>
         <div>
-          123
+          <span>实名认证：</span><n-tag type='success'>已认证</n-tag>
+          <br>
+          <span>手机号码：{{ userInfo.phonenumber }}</span>
         </div>
       </div>
     </n-card>
@@ -17,8 +23,8 @@
         <n-button strong secondary round :type="buttonOneType" @click='changeToOnePage'>安全设置</n-button>
         <br>
 
-        <basic-setting v-if='pageOne' />
-        <safe-setting v-if='pageTwo' />
+        <basic-setting v-if='pageOne' :phonenumber='safePhone' :email='safeEmail'/>
+        <safe-setting v-if='pageTwo' @submit='father'/>
       </div>
     </n-card>
   </div>
@@ -31,9 +37,13 @@ const userStore = useUserStore()
 import api from '@/views/api/index'
 import SafeSetting from '@/views/personalCenter/safeSetting.vue'
 import BasicSetting from '@/views/personalCenter/basicSetting.vue'
+import { getIcon } from '@iconify/vue'
 const { getDoctorInfo } = api
 
 const username = localStorage.getItem('username')
+
+let safeEmail = ref('')
+let safePhone = ref('')
 
 let pageOne = ref(false)
 let pageTwo = ref(true)
@@ -55,12 +65,24 @@ const changeToTwoPage = () => {
 
 
 let userInfo = ref({})
-onMounted(async() => {
+onMounted(() => {
+  getInfo()
+})
+
+const getInfo = async() => {
   console.log(username)
   const {data} = await getDoctorInfo(username)
   console.log(data)
   userInfo.value = data
-})
+
+  safePhone.value = "已绑定：" + data.phonenumber
+  safeEmail.value = "已绑定：" + data.email
+}
+
+const father = () => {
+  getInfo()
+}
+
 
 
 </script>

@@ -25,4 +25,5 @@ export default {
 
   getDoctorInfo: (username) => request.get(`get_doctor_info?username=${username}`),
 
+  updateDoctorInfo: (info) => request.post('insert_doctor_info', info)
 }
