@@ -11,11 +11,11 @@
           </div>
           <div ml-auto flex items-center>
             <!-- 待诊断病人 -->
-            <n-statistic label="今日已分割的数量" :value="4">
+            <n-statistic label="今日已分割的数量" :value="data[2].value">
               <template #suffix> / 100 </template>
             </n-statistic>
             <!-- 待分割的图像数量 -->
-            <n-statistic label="剩余分割的额度" ml-100 mr-100 w-120 :value="96">
+            <n-statistic label="剩余分割的额度" ml-100 mr-100 w-120 :value="100-data[2].value">
               <template #suffix> / 100 </template>
             </n-statistic>
           </div>

@@ -23,4 +23,6 @@ export default {
   removeDoctor: (data) => request.post('remove_doctor', data),
   removePatient: (id) => request.post(`remove_patient`, {id}),
 
+  getDoctorInfo: (username) => request.get(`get_doctor_info?username=${username}`),
+
 }
