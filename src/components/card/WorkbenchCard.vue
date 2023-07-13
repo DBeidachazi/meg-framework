@@ -9,7 +9,7 @@
 <!--      position: relative; top: -1rem-->
     </div>
     <!-- todo 删除背景和边框 -->
-    <div h-80 w-100 bg-white style="display:flex; border: 1px solid white; transform:scale(1.7);position: relative;top: 4rem;right: 4rem">
+    <div h-80 w-100  style="display:flex; transform:scale(1.7);position: relative;top: 4rem;right: 4rem">
       <vue3-lottie :animation-data="props.lottie" style="width: 100%; height: 100%; object-fit: contain;" />
     </div>
   </div>
