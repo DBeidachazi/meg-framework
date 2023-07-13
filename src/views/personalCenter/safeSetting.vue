@@ -42,6 +42,15 @@ const submit = async() => {
     console.log(res)
   })
   emit('submit')
+  $message.success("修改成功")
+
+  form.value = {
+    did: did,
+    nickname: '',
+    regions: '',
+    self_information: '',
+    email: ''
+  }
 }
 
 
