@@ -15,7 +15,7 @@ export default {
   fetchData: (username) => request.get(`quota_inquiry?username=${username}`),
 
   queryCase: (cid) => request.get(`query_case?cid=${cid}`),
-  insertCase: (data) => request.post('insert_case', data),
+  insertCase: (body, cid) => request.post("insert_case", {body, cid}),
 
   getData: (username) => request.get(`get_data?username=${username}`),
   getAllData: () => request.get('get_all_data'),
