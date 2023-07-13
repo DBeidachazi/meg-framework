@@ -21,7 +21,7 @@
 
 <script setup>
 import { h, onMounted, reactive, ref } from 'vue'
-import { NButton, useMessage, useDialog } from 'naive-ui'
+import { NButton, useMessage, useDialog, NCheckbox, NEllipsis, NGradientText } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
 import { useStore } from '@/store/modules/store'
@@ -151,6 +151,8 @@ const createColumns = ({
     {
       title: '查看医疗影相',
       key: 'upload',
+      // render渲染函数
+      // row数据
       render(row) {
         // console.log(row.file_path)
         return h(
@@ -203,7 +205,7 @@ const getVNode = (row) => {
     }
   )
 }
-
+// 渲染函数，点击返回两个按钮
 const getVNodeButton = (row) => {
   return [
       h(NButton, {
@@ -231,6 +233,79 @@ const getVNodeButton = (row) => {
       }, '对比'),
     ]
 }
+// 添加一个model确认的复选框,添加一个确认模型，上传文件的按钮CheckModelButton
+const CheckModelButton = (row) => {
+  return [
+    // createElementBlock('p', null, '当前的分割模型为nnunet模型'),
+    h(NGradientText,
+      {
+        type: 'success',
+      }, "当前的分割模型为nnunet模型"
+    ),
+    h(NButton, {
+      strong: true,
+      tertiary: true,
+      size: 'small',
+      onClick: () => dialog.destroyAll(),
+      style: {
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        marginRight: '10.25rem',
+        marginLeft: '32rem'
+      },
+
+    }, '取消'),
+    h(NButton, {
+      strong: true,
+      tertiary: true,
+      size: 'small',
+      style: {
+        marginTop: "2rem",
+        marginLeft: 'auto'
+      },
+      onClick: () => {
+        dialog.destroyAll()
+        dialog.info({
+          title: "确认上传",
+          content: CheckfileButton.bind(null, row),
+        })
+      }
+    }, '确认'),
+  ]
+}
+const CheckfileButton = (row) =>{
+  return [
+    h(NButton, {
+      strong: true,
+      tertiary: true,
+      size: 'small',
+      onClick: () => dialog.destroyAll(),
+      style: {
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        marginRight: '10.25rem',
+        marginLeft: '32rem'
+      },
+
+    }, '取消'),
+    h(NButton, {
+      strong: true,
+      tertiary: true,
+      size: 'small',
+      style: {
+        marginTop: "2rem",
+        marginLeft: 'auto'
+      },
+          onClick: () => {
+            dialog.destroyAll()
+            fileInput.value.click()
+            sendPid.value = row.code
+          },
+    }, '确认'),
+  ]
+}
+
+// looklook函数是一个跳转函数
 const looklook = async(row, type) => {
     console.log(row)
     let response = await sendpid({"current_pid":row.code})
@@ -244,8 +319,10 @@ const looklook = async(row, type) => {
 
 const columns = createColumns({
 
+// 方法：selectOneOrTwo(row) => 选择一个或者两个；调用 dialog.info 方法弹出一个对话框；将getVNodeButton方法；绑定到content上
   async selectOneOrTwo(row) {
     console.log(row)
+    // dialog.info弹出退画框
     dialog.info({
       title: "选择查看类型",
       content: getVNodeButton.bind(null, row),
@@ -268,19 +345,16 @@ const columns = createColumns({
 
     })
   },
-
+// upload函数是上传医疗影像函数，我们在上传前开一个dialog,
+// 通过fileInput.value.click()触发文件选择器的点击事件，弹出文件选择框。
+// 将sendPid.value设置为row.code，将row对象中的code属性赋值给sendPid。
   async upload(row) {
+    console.log(row)
     dialog.info({
-      title: "nihao1",
+      title: '请确认分割模型',
       style: { },
-      content: "123,",
-      onAfterLeave: () => {
-        fileInput.value.click()
-        sendPid.value = row.code
-      }
+      content: CheckModelButton.bind(null, row),
     })
-    // fileInput.value.click()
-    // sendPid.value = row.code
   },
 
   async looklook(row) {

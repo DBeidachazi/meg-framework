@@ -113,7 +113,8 @@ const handleSavePost = async () =>{
   console.log("post.value.content: ", post.value.content)
   let resp = await insertCase(post.value.content, props.code)
   console.log("resp: ", resp)
-  $message.info(resp.msg)
+  $message.success("保存成功")
+  btnLoading.value = false
 }
 </script>
 
