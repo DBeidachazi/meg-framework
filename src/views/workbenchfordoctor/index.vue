@@ -23,10 +23,10 @@
 
 
         <div flex mt-20>
-          <workbench-card value='人数: 4人' :lottie='patient' title='●患者就诊人数统计' />
-          <workbench-card value='次数：4次' :lottie='load' title='●模型调用的次数' />
-          <workbench-card value='次数：4次' :lottie='fenge' title='●分割的次数' />
-          <workbench-card value='数量：4次' :lottie='report' title='●诊断书的数量' />
+          <workbench-card :value='data[0].cardValue' :lottie='patient' :title='data[0].name' />
+          <workbench-card :value='data[1].cardValue' :lottie='load' :title='data[1].name' />
+          <workbench-card :value='data[2].cardValue' :lottie='fenge' :title='data[2].name' />
+          <workbench-card :value='data[3].cardValue' :lottie='report' :title='data[3].name' />
         </div>
 
       </n-card>
@@ -61,16 +61,15 @@ import report from '@/assets/lottie/doctor/number_report.json'
 import load from '@/assets/lottie/doctor/model_load.json'
 
 
-const { information } = api
+const { information, getData } = api
 
-
-
-
+// bing图数据
+let data = ref([{name:'',cardValue:''},{name:'',cardValue:''},{name:'',cardValue:''},{name:'',cardValue:''}])
 
 
 const userStore = useUserStore()
 // 获取后端返回的患者数据
-onMounted(() => {
+onMounted(async() => {
   let dom = document.getElementsByClassName('chart-container')[0];
   let dom2 = document.getElementsByClassName('chart-container2')[0];
   let myBorderRaius = echarts.init(dom2, null, {
@@ -82,6 +81,9 @@ onMounted(() => {
     useDirtyRect: false
   });
 
+  const resp = await getData()
+  data.value = resp.data
+  console.log('onMounted: ', data.value)
 
   // 饼形图
   let option = {
@@ -118,13 +120,7 @@ onMounted(() => {
         labelLine: {
           show: false
         },
-        data: [
-          { value: 4, name: '●患者人数统计' },
-          { value: 4, name: '●模型调用次数' },
-          { value: 4, name: '●分割的次数' },
-          { value: 4, name: '●诊断书数量' },
-          // { value: 300, name: 'Video Ads' }
-        ]
+        data: data.value
       }
     ]
   };
