@@ -40,7 +40,7 @@ import _ from 'lodash'
 import patient from "@/views/admin/patient.vue";
 import api from '@/views/api/index'
 
-const { getAllDoctor } = api
+const { getAllDoctor, removeDoctor } = api
 
 const store = useStore()
 
@@ -112,7 +112,7 @@ onMounted(() => {
 
 
 const createColumns = ({
-                         looklook, aply,
+                         looklook, aply, remove
                        }) => {
   return [
     // { title: '医生id', key: 'id' },
@@ -158,12 +158,29 @@ const createColumns = ({
         )
       }
     },
+    {
+      title: '删除',
+      key: 'remove',
+      render(row) {
+        return h(
+          NButton,
+          {
+            strong: true,
+            tertiary: true,
+            size: 'small',
+            onClick: () => remove(row.username)
+          },
+          { default: () => '删除' }
+        )
+      }
+    },
   ]
 }
 
 const fileInput = ref(null)
 let dataArr = ref([])
 const message = useMessage()
+
 
 const columns = createColumns({
   async looklook(row) {
@@ -175,6 +192,12 @@ const columns = createColumns({
     // showPatient()
     alert('已经增加额度')
   },
+  async remove(row){
+    console.log(row)
+    let resp = await removeDoctor({"username": row})
+    console.log(resp)
+    getAll()
+  }
 })
 
 // 是否显示病人列表

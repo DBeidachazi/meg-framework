@@ -25,7 +25,7 @@ import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
 
 import api from '@/views/api/index'
-const { getall, sendpid } = api
+const { getall, sendpid, removePatient } = api
 
 const store = useStore()
 const username = store.username
@@ -103,7 +103,7 @@ onMounted(() => {
 
 
 const createColumns = ({
-                         remove, looklook,
+                         remove, looklook
                        }) => {
   return [
     // { title: '患者id', key: 'id' },
@@ -130,6 +130,22 @@ const createColumns = ({
         )
       }
     },
+    {
+      title: '删除',
+      key: 'remove',
+      render(row) {
+        return h(
+          NButton,
+          {
+            strong: true,
+            tertiary: true,
+            size: 'small',
+            onClick: () => remove(row)
+          },
+          { default: () => '删除' }
+        )
+      }
+    }
 
   ]
 }
@@ -151,6 +167,13 @@ const columns = createColumns({
   //     getAll()
   //   }, 500)
   // },
+
+  async remove(row) {
+    console.log(row)
+    let resp = await removePatient(row.id)
+    console.log(resp)
+    getAll()
+  },
 
   async looklook(row) {
     console.log(row)

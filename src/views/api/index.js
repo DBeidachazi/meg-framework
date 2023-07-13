@@ -12,7 +12,14 @@ export default {
   register: (data, headers) => request.post('register', data, headers),
   information: () => request.get('information'),
 
-  fetchData: (username)=>request.get(`quota_inquiry?username=${username}`),
+  fetchData: (username) => request.get(`quota_inquiry?username=${username}`),
 
   queryCase: (cid) => request.get(`query_case?cid=${cid}`),
+  insertCase: (data) => request.post('insert_case', data),
+
+  getData: (username) => request.get(`get_data?username=${username}`),
+  removeDoctor: (data) => request.post('remove_doctor', data),
+
+  removePatient: (id) => request.post(`remove_patient`, {id}),
+
 }

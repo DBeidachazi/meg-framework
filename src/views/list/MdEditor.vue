@@ -19,10 +19,10 @@
 <script setup>
 import MdEditor from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
-import { onBeforeMount } from 'vue'
+import { onBeforeMount, watch } from 'vue'
 import api from "@/views/api/index"
 
-const { queryCase } = api
+const { queryCase, insertCase } = api
 
 const props = defineProps({
   code: String,
@@ -53,6 +53,7 @@ let data = reactive({})
 onMounted(async() => {
   data = await queryCase(props.code)
   console.log(data.data)
+  data.data.cid = props.code
   data.data.head ??= "诊断意见:&nbsp 肝脏弥漫性低密度灶，考虑肿瘤可能性较大"
   data.data.body ??= `
 - 影像类型：腹腔X光片
@@ -64,7 +65,10 @@ onMounted(async() => {
   - 注意休息，多饮水，保持良好的心态。`
   data.data.date ??= "&nbsp 2023年7月7日"
   data.data.sign ??= "李四"
-  post.value.content = `
+
+
+
+  post.value.content = ref(`
 <center><h1>MedSego医疗数据解析平台</h1></center>
 <!--<div style="border: 2px solid green; padding: 10px;height: 80vh;">-->
 <div style="border: 2px solid green; padding: 10px; display: flex; flex-direction: column;">
@@ -95,8 +99,7 @@ onMounted(async() => {
 </table>
 </div>
 </div>
-`
-console.log(props.code);
+`)
 })
 
 
@@ -104,9 +107,13 @@ console.log(props.code);
 let post = ref({})
 let btnLoading = ref(false)
 
-function handleSavePost() {
+const handleSavePost = async () =>{
   btnLoading.value = true
   $message.loading('正在保存...')
+  console.log("data.data: ", data.data)
+  console.log("post.value.content: ", post.value.content)
+  let resp = await insertCase(data.data)
+  console.log(resp)
   setTimeout(() => {
     $message.success('保存成功')
     btnLoading.value = false
