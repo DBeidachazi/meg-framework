@@ -18,9 +18,9 @@
 <script setup>
 import { defineComponent, ref, watch } from 'vue'
 import { Chatbubble } from "@vicons/ionicons5"
-import {getProxyConfig} from '~/settings'
+import {getAiConfig} from '~/settings'
 
-const url = getProxyConfig().target + "/static/ai"
+const url = getAiConfig().target + "/static/ai"
 
 let showPopover =  ref(false)
 let color = ref('background: white')

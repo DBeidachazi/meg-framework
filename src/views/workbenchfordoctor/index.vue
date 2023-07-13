@@ -81,7 +81,8 @@ onMounted(async() => {
     useDirtyRect: false
   });
 
-  const resp = await getData()
+  const username = localStorage.getItem("username")
+  const resp = await getData(username)
   data.value = resp.data
   console.log('onMounted: ', data.value)
 

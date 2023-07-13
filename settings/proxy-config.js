@@ -11,8 +11,17 @@ const proxyConfigMappings = {
     prefix: '/api',
     target: 'http://localhost:8080',
   },
+  ai: {
+    prefix: '/api',
+    target: 'http://localhost:8010',
+  }
 }
 
 export function getProxyConfig(envType = 'dev') {
+  return proxyConfigMappings[envType]
+}
+
+
+export function getAiConfig(envType = 'ai') {
   return proxyConfigMappings[envType]
 }

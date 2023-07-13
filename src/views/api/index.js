@@ -18,6 +18,7 @@ export default {
   insertCase: (data) => request.post('insert_case', data),
 
   getData: (username) => request.get(`get_data?username=${username}`),
+  getAllData: () => request.get('get_all_data'),
 
   removeDoctor: (data) => request.post('remove_doctor', data),
   removePatient: (id) => request.post(`remove_patient`, {id}),

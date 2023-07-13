@@ -60,7 +60,7 @@ import fenge from '@/assets/lottie/doctor/number_fenge.json'
 import load from '@/assets/lottie/doctor/model_load.json'
 
 
-const { information, getData } = api
+const { information, getAllData } = api
 
 const testUrl = () => require('@/assets/svg/patient.svg')
 
@@ -84,9 +84,9 @@ onMounted(async () => {
   })
 
 
-  const resp = await getData()
+  const resp = await getAllData()
+  console.log(resp.value)
   data.value = resp.data
-  console.log('onMounted: ', data.value)
 
 
   // 饼形图

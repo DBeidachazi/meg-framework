@@ -51,7 +51,7 @@ let data = reactive({})
 // })
 
 onMounted(async() => {
-  data = await queryCase(props.code)
+  data = await queryCase(props.code) // cid
   console.log(data.data)
   data.data.cid = props.code
   data.data.head ??= "诊断意见:&nbsp 肝脏弥漫性低密度灶，考虑肿瘤可能性较大"
