@@ -77,6 +77,7 @@ import bgImg from '@/assets/images/login_bg.webp'
 import api from '@/views/api/index'
 import { addDynamicRoutes } from '@/router'
 import { useUserStore } from '@/store'
+import doctorAvatar from "@/assets/images/doctor.png"
 
 const { login } = api
 
@@ -141,7 +142,7 @@ async function handleLogin() {
         }
       }
       // set avatar
-      userStore.setUserAvatar("http://tva1.sinaimg.cn/mw690/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg")
+      userStore.setUserAvatar(doctorAvatar)
     } else {
       // 处理其他状态码的情况，比如提示错误信息等
       $message.error('登录失败')
