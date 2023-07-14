@@ -1,11 +1,11 @@
 const proxyConfigMappings = {
   dev: {
     prefix: '/api',
-    target: 'http://localhost:8009',
+    target: 'http://10.105.131.130:8009',
   },
   test: {
     prefix: '/api',
-    target: 'http://localhost:8080',
+    target: 'http://10.105.131.130:8009',
   },
   prod: {
     prefix: '/api',
@@ -13,7 +13,7 @@ const proxyConfigMappings = {
   },
   ai: {
     prefix: '/api',
-    target: 'http://localhost:8010',
+    target: 'http://10.105.131.130:8010',
   }
 }
 

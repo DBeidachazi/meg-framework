@@ -2,7 +2,7 @@
   <n-dropdown :options="options" @select="handleSelect">
     <div flex cursor-pointer items-center>
 <!--      <img src="http://tva1.sinaimg.cn/large/006Hj19Tly1hf4ppw4i52j30oe0mxn5d.jpg" mr10 h-35 w-35 rounded-full />-->
-      <img :src="userStore.avatar" mr10 h-35 w-35 rounded-full />
+      <img :src="doctorAvatar" mr10 h-35 w-35 rounded-full />
 <!--      <span>{{ userStore.name }}</span>-->
       <span>{{ name }}</span>
     </div>
@@ -13,6 +13,7 @@
 import { useUserStore } from '@/store'
 import { renderIcon } from '@/utils'
 import { useStore } from '@/store/modules/store'
+import doctorAvatar from "@/assets/images/doctor.png"
 
 const userStore = useUserStore()
 const store = useStore()

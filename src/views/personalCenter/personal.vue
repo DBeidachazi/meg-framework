@@ -2,7 +2,7 @@
   <div style='padding: 3rem 3.75rem 0 3.75rem'>
     <n-card rounded-10 >
       <div flex items-center>
-        <img :src='userStore.avatar' width='100' alt='' rounded-full>
+        <img :src='doctorAvatar' width='100' alt='' rounded-full>
         <div mx-150>
           <div>
             <span>用户名：{{ userInfo.username }}</span><br>
@@ -39,6 +39,7 @@ import SafeSetting from '@/views/personalCenter/safeSetting.vue'
 import BasicSetting from '@/views/personalCenter/basicSetting.vue'
 import { getIcon } from '@iconify/vue'
 const { getDoctorInfo } = api
+import doctorAvatar from "@/assets/images/doctor.png"
 
 const username = localStorage.getItem('username')
 

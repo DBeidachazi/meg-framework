@@ -11,22 +11,22 @@
           </div>
           <div ml-auto flex items-center>
             <!-- 待诊断病人 -->
-            <n-statistic label='今日申请的人数' value='10'>
-              <template #suffix> / 10</template>
+            <n-statistic label="今日已分割的数量" :value="data[2].value">
+              <template #suffix> / 100 </template>
             </n-statistic>
             <!-- 待分割的图像数量 -->
-            <n-statistic label='通过申请的人数' ml-100 mr-100 w-120 value='4'>
-              <template #suffix> / 10</template>
+            <n-statistic label="剩余分割的额度" ml-100 mr-100 w-120 :value="100-data[2].value">
+              <template #suffix> / 100 </template>
             </n-statistic>
           </div>
         </div>
 
 
         <div flex mt-20>
-          <workbench-card :value='data[0].cardValue' :lottie='aply' :title='data[0].name' />
-          <workbench-card :value='data[1].cardValue' :lottie='aply' :title='data[1].name' />
-          <workbench-card :value='data[2].cardValue' :lottie='aply' :title='data[2].name' />
-          <workbench-card :value='data[3].cardValue' :lottie='aply' :title='data[3].name' />
+          <workbench-card :value='data[0].cardValue' :lottie='patient' :title='data[0].name' />
+          <workbench-card :value='data[1].cardValue' :lottie='load' :title='data[1].name' />
+          <workbench-card :value='data[2].cardValue' :lottie='fenge' :title='data[2].name' />
+          <workbench-card :value='data[3].cardValue' :lottie='report' :title='data[3].name' />
         </div>
 
       </n-card>
@@ -55,8 +55,9 @@ import WorkbenchCard from '@/components/card/WorkbenchCard.vue'
 import gear from '@/assets/lottie/gear-loader.json'
 import doctor from '@/assets/lottie/register_doctor_lottie.json'
 import doctor_patient from '@/assets/lottie/admin/number_doctor_patient.json'
-import aply from '@/assets/lottie/admin/number_aply.json'
+import patient from '@/assets/lottie/doctor/number_patient.json'
 import fenge from '@/assets/lottie/doctor/number_fenge.json'
+import report from '@/assets/lottie/doctor/number_report.json'
 import load from '@/assets/lottie/doctor/model_load.json'
 
 import doctorAvatar from "@/assets/images/doctor.png"
