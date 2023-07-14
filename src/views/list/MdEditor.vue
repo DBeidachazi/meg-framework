@@ -12,7 +12,7 @@
         <TheIcon v-if="!btnLoading" icon="line-md:confirm-circle" class="mr-5" :size="18" /> 保存
       </n-button>
     </div>
-    <MdEditor v-model="post.content" style="height: calc(100vh - 305px)" dark:bg-dark />
+    <MdEditor v-model="post.content" style="height: calc(100vh - 305px)" dark:bg-dark :toolbars='toolbars' :on-save='onSave'/>
   </CommonPage>
 </template>
 
@@ -22,6 +22,37 @@ import 'md-editor-v3/lib/style.css'
 import { onBeforeMount, watch } from 'vue'
 import api from "@/views/api/index"
 
+const onSave = () => {
+  console.log(123)
+}
+
+const toolbars = [
+  'bold',
+  'underline',
+  'italic',
+  '-',
+  'title',
+  'strikeThrough',
+  'sub',
+  'sup',
+  'quote',
+  'unorderedList',
+  'orderedList',
+  'task',
+  '-',
+  'codeRow',
+  'code',
+  'link',
+  'image',
+  'table',
+  '-',
+  'revoke',
+  'next',
+  'save',
+  '=',
+  'pageFullscreen',
+  'fullscreen',
+];
 const { queryCase, insertCase } = api
 
 const props = defineProps({
