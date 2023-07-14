@@ -12,79 +12,76 @@
         <TheIcon v-if="!btnLoading" icon="line-md:confirm-circle" class="mr-5" :size="18" /> 保存
       </n-button>
     </div>
-    <MdEditor v-model="post.content" style="height: calc(100vh - 305px)" dark:bg-dark :toolbars='toolbars' :on-save='onSave'/>
+    <MdEditor v-model="post.content" style="height: calc(100vh - 305px)" dark:bg-dark :toolbars='toolbars' :on-save='onSave'>
+<!--      <template #defToolbars>-->
+<!--        <NormalToolbar-->
+<!--          title='语音朗读'-->
+<!--          @onClick='onSave'-->
+<!--        >-->
+<!--          <svg class="md-editor-icon" aria-hidden="true">-->
+<!--            <use xlink:href="#icon-mark"></use>-->
+<!--          </svg>-->
+<!--          <img :src='DoctorSvg' alt=''>-->
+<!--        </NormalToolbar>-->
+<!--      </template>-->
+    </MdEditor>
   </CommonPage>
 </template>
 
 <script setup>
 import MdEditor from 'md-editor-v3'
+const NormalToolbar = MdEditor.NormalToolbar
 import 'md-editor-v3/lib/style.css'
-import { onBeforeMount, watch } from 'vue'
 import api from "@/views/api/index"
+import _ from 'lodash'
+import Speech from 'speak-tts'
+import { onBeforeMount, onUnmounted } from 'vue'
+const speech = new Speech()
+import '@/assets/icon/icon.svg'
+
+
+
+onBeforeMount(() => {
+  speech.init().then((data) => {
+    console.log("Speech is ready, voices are available", data)
+  }).catch(e => {
+    console.error("An error occured while initializing : ", e)
+  })
+})
+
+onUnmounted(() => {
+  speech.cancel()
+})
+
+
 
 const onSave = () => {
   console.log(123)
+  speech.speak({
+    text: readStr.value
+  })
 }
 
-const toolbars = [
-  'bold',
-  'underline',
-  'italic',
-  '-',
-  'title',
-  'strikeThrough',
-  'sub',
-  'sup',
-  'quote',
-  'unorderedList',
-  'orderedList',
-  'task',
-  '-',
-  'codeRow',
-  'code',
-  'link',
-  'image',
-  'table',
-  '-',
-  'revoke',
-  'next',
-  'save',
-  '=',
-  'pageFullscreen',
-  'fullscreen',
-];
+const toolbars = [ 'bold', 'underline', 'italic', '-', 'title', 'strikeThrough', 'sub', 'sup', 'quote', 'unorderedList', 'orderedList', 'task', '-', 'codeRow', 'code', 'link', 'image', 'table', '-', 'revoke', 'next', 'save', 0,  '=', 'pageFullscreen', 'fullscreen', ];
 const { queryCase, insertCase } = api
 
-const props = defineProps({
-  code: String,
-  name: String,
-  sex:  String,
-  age:  String,
-})
+const props = defineProps({ code: String, name: String, sex:  String, age:  String, })
 
 defineOptions({ name: 'MDEditor' })
 
 let data = reactive({})
 let post = ref({})
 
-// onBeforeMount(async() => {
-//   data = await queryCase(props.code)
-//   data.head ??= "诊断意见:&nbsp 肝脏弥漫性低密度灶，考虑肿瘤可能性较大"
-//   data.body ??= `
-// - 影像类型：腹腔X光片
-// - 影像结果：肝脏增大，见弥漫性大小不等类圆形低密度影。
-// - 诊断：肝脏肿瘤与肝钙化灶
-// - 处理意见：
-//   - 住院隔离治疗，给予抗病毒、抗感染、抗炎、支持等药物治疗。
-//   - 定期复查血常规、尿常规、肝肾功能、心电图等指标。
-//   - 注意休息，多饮水，保持良好的心态。`
-//   data.date ??= "&nbsp 2023年7月7日"
-//   data.sign ??= "李四"
-// })
+
+const removeTags = (str) => {
+  return _.replace(str, /<[^>]*>|&nbsp/g, '');
+}
+
+const readStr = ref('')
 
 onMounted(async() => {
   data = await queryCase(props.code) // cid
-  console.log(data)
+  console.log("data", data)
   if (typeof data.data.body != "string") {
     console.log("数据库没数据")
     post.value.content = ref(`
@@ -130,6 +127,7 @@ onMounted(async() => {
     console.log("数据库有数据")
     post.value.content = data.data.body
   }
+  readStr.value = removeTags(post.value.content)
 })
 
 
