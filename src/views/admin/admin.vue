@@ -190,7 +190,7 @@ const columns = createColumns({
   async aply(row) {
     // store.setUserName(row.username)
     // showPatient()
-    alert('已经增加额度')
+    $message.success('已经增加额度')
   },
   async remove(row){
     console.log(row)

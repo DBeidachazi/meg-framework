@@ -1,23 +1,9 @@
-<p align="center">
-  <a href="https://github.com/zclzone/vue-naive-admin">
-    <img alt="Vue Naive Admin Logo" width="200" src="https://assets.qszone.com/images/logo_qs.svg">
-  </a>
-</p>
-<p align="center">
-  <a href="https://github.com/zclzone/vue-naive-admin/actions"><img allt="checks" src="https://badgen.net/github/checks/zclzone/vue-naive-admin"/></a>
-  <a href="https://github.com/zclzone/vue-naive-admin"><img allt="stars" src="https://badgen.net/github/stars/zclzone/vue-naive-admin"/></a>
-  <a href="https://github.com/zclzone/vue-naive-admin"><img allt="forks" src="https://badgen.net/github/forks/zclzone/vue-naive-admin"/></a>
-  <a href="./LICENSE"><img allt="MIT License" src="https://badgen.net/github/license/zclzone/vue-naive-admin"/></a>
-</p>
-
-<p align='center'>
-  <b>中文</b> | 
-  <a href="https://github.com/zclzone/vue-naive-admin/blob/main/README.EN.md">English</a>
-</p>
-
 ### 简介
-
-[Vue Naive Admin](https://github.com/zclzone/vue-naive-admin) 是一个 **完全开源免费且允许商用** 的后台管理模板，基于 `Vue3、Vite3、Pinia、Unocss 和 Naive UI` 等前端最新技术栈。相较于其他比较流行的后台管理模板，此项目更加简洁、轻量，风格清新，学习成本非常低，非常适合中小型项目或者个人项目。
+MedSego是一个智能医疗影像平台，
+旨在为医生提供一个更加便捷的阅片工具，
+提高医生的工作效率，减少医生的工作压力，
+同时也为患者提供更加便捷的就医方式
+，减少患者的等待时间，提高患者的就医体验。
 
 ### 功能
 
@@ -32,73 +18,26 @@
 - 🤹 集成 `iconify` 图标，支持自定义 svg 图标, 优雅使用icon
 - 🍇 集成 `unocss`，antfu 开源的原子 css 解决方案，非常轻量
 
-### 预览
-
-[https://template.qszone.com](https://template.qszone.com)
-
-[https://vercel.template.qszone.com](https://vercel.template.qszone.com)
-
-### 文档
-
-[Vue Naive Admin Docs](https://zclzone.github.io/vue-naive-admin-docs)
-
-[语雀文档：Vue Naive Admin](https://www.yuque.com/qszone/vue-naive-admin)
-
 ### 快速开始
 
 ```shell
-# 推荐配置git autocrlf 为 false（本项目规范使用lf换行符，此配置是为防止git自动将源文件转换为crlf）
-# 不清楚为什么要这样做的请参考这篇文章：https://www.freesion.com/article/4532642129
-git config --global core.autocrlf false
-
-# 克隆项目
-git clone https://github.com/zclzone/vue-naive-admin.git
+# nodejs 依赖
+require: nodejs 16.0.0+
 
 # 进入项目目录
-cd vue-naive-admin
+cd meg-framework
 
-# 安装依赖(建议使用pnpm: https://pnpm.io/zh/installation)
-npm i -g pnpm # 装了可忽略
-pnpm i # 或者 npm i
+# 安装依赖
+npm i -g yarn# 装了可忽略
+yarn # 或者 npm i
 
 # 启动
-pnpm dev
+yarn dev
 ```
-
-### 构建发布
-
-```shell
-# 构建测试环境
-pnpm build:test
-
-# 构建github pages环境
-pnpm build:github
-
-# 构建生产环境
-pnpm build
-```
-
-### 其他指令
-
-```shell
-# eslint代码格式检查
-pnpm lint
-
-# 代码检查并修复
-pnpm lint:fix
-
-# 预览发布包效果（需先执行构建指令）
-pnpm preview
-
-# 提交代码（husky+commitlint）
-pnpm cz
-```
-
 
 ### 目录说明
 
 ```
-Vue Naive Admin
 |-- .github                             // github相关，如推送github仓库后自动部署gh pages
 |-- .husky                              // git commit钩子
 |-- .vscode                             // vscode编辑器相关
@@ -116,6 +55,7 @@ Vue Naive Admin
 |   |   |-- unplugin.js                 // unplugin相关插件，包含DefineOptions和自动导入
 |   |-- script                          // 打包完成后执行的一些node脚本（不重要）
 |       |-- build-cname.js              // 自动生成cname
+|-- drop                                // 弃用文件
 |-- mock                                // mock
 |   |-- utils.js                        // mock请求需要用到的工具方法
 |   |-- api                             // mock接口
@@ -157,10 +97,18 @@ Vue Naive Admin
 |   |   |-- http                        // 封装axios
 |   |   |-- storage                     // 封装localStorage和sessionStorage
 |   |-- views                           // 页面
-|   |   |-- demo                        // 示例
-|   |   |-- error-page                  // 错误页
-|   |   |-- login                       // 登录页
+|   |   |-- admin                       // 管理员管理页面
+|   |   |-- api                         // 请求接口
+|   |   |-- interface                   // 接口页面
+|   |   |-- login                       // 登录页面
+|   |   |-- list                        // 医生查看病人列表
+|   |   |-- personalCenter              // 个人中心
 |   |   |-- workbench                   // 首页  
+|   |   |-- quota                       // 配额管理
+|   |   |-- readme                      // 项目说明
+|   |   |-- Register                    // 注册页面
+|   |   |-- review                      // 阅片界面
+|   |   |-- workbenchfordocker          // 医生工作台
 |   |-- App.vue
 |   |-- main.js
 |-- .cz-config.js                       // git提交配置
@@ -185,23 +133,3 @@ Vue Naive Admin
 |-- unocss.config.js                    // unocss配置
 |-- vite.config.js                      // vite配置
 ```
-
-### TS 版本: Qs Admin
-
-#### 源码
-
-- gitub: [https://github.com/zclzone/qs-admin](https://github.com/zclzone/qs-admin)
-- gitee: [https://gitee.com/zclzone/qs-admin-ts](https://gitee.com/zclzone/qs-admin-ts)
-
-#### 预览
-
-- [https://admin.qszone.com](https://admin.qszone.com)
-- [https://zclzone.github.io/qs-admin](https://zclzone.github.io/qs-admin)
-
-### 入群交流 & 关于作者
-
-<a href="https://blog.qszone.com/about/">
-  <img src="https://assets.qszone.com/images/about.png" style="max-width: 400px" />
-</a>
-
-

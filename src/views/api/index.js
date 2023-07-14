@@ -25,5 +25,9 @@ export default {
 
   getDoctorInfo: (username) => request.get(`get_doctor_info?username=${username}`),
 
-  updateDoctorInfo: (info) => request.post('insert_doctor_info', info)
+  updateDoctorInfo: (info) => request.post('insert_doctor_info', info),
+
+  changePassword: (data) => request.post('change_password', data),
+  changePhoneNumber: (data) => request.post('change_phonenumber', data),
+  changeEmail: (data) => request.post('change_email', data),
 }

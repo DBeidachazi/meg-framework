@@ -28,20 +28,139 @@
 </template>
 
 <script setup>
-import { h, onMounted } from 'vue'
+import { h, onMounted, ref } from 'vue'
 import { useDialog, NInput } from 'naive-ui'
-
+import api from '@/views/api/index'
+const { getDoctorInfo, updateDoctorInfo, changePassword, changePhoneNumber, changeEmail } = api
 const dialog = useDialog()
 
-const inputValue = ref('')
-const getVNode = () => {
+const did = localStorage.getItem('username')
+const userInfo = ref({})
 
+onMounted(async() => {
+  await getBasicSettingDoctorInfo()
+})
+
+const emit = defineEmits(['submit'])
+
+
+
+const getBasicSettingDoctorInfo = async() => {
+  const {data} = await getDoctorInfo(did)
+  userInfo.value = data
+  console.log(userInfo.value)
+  emit('submit')
+}
+
+const inputValue = ref('')
+const password = ref({
+  old_password: '',
+  new_password: '',
+  username: did
+})
+const email = ref({
+  email: '',
+  username: did,
+  password: '',
+})
+const phoneNumber = ref({
+  phonenumber: '',
+  username: did,
+  password: '',
+})
+const oldPassword = ref('')
+const newPassword = ref('')
+const getPasswordVNode = (inputRef) => {
+  return [h(
+    NInput,
+    {
+      modelValue: inputValue,
+      type: 'password',
+      placeholder: "旧密码",
+      onInput: (value) => {
+        password.value.old_password = value
+      },
+    }
+  ),
+    h(
+      NInput,
+      {
+        modelValue: inputValue,
+        type: 'password',
+        placeholder: "新密码",
+        style: { marginTop: '20px'},
+        onInput: (value) => {
+          password.value.new_password = value
+        },
+      }
+    ),
+  ]
+}
+
+const questionVNode = () => {
   return h(
     NInput,
     {
-      vModel: inputValue,
+      modelValue: inputValue,
+      type: 'text',
+      placeholder: "请填写密保",
+      onInput: (value) => {
+        password.value.old_password = value
+      },
     }
   )
+}
+const phoneVNode = () => {
+  return [h(
+    NInput,
+    {
+      modelValue: inputValue,
+      type: 'password',
+      placeholder: "密码",
+      onInput: (value) => {
+        phoneNumber.value.password = value
+      },
+    }
+  ),
+    h(
+      NInput,
+      {
+        modelValue: inputValue,
+        type: 'text',
+        placeholder: "手机号",
+        style: { marginTop: '20px'},
+        onInput: (value) => {
+          phoneNumber.value.phonenumber= value
+        },
+      }
+    ),
+  ]
+}
+const emailVNode = () => {
+  return [h(
+    NInput,
+    {
+      modelValue: inputValue,
+      type: 'password',
+      placeholder: "密码",
+      onInput: (value) => {
+        email.value.password = value
+      },
+    }
+  ),
+    h(
+      NInput,
+      {
+        modelValue: inputValue,
+        type: 'text',
+        placeholder: "邮箱",
+        style: { marginTop: '20px'},
+        onInput: (value) => {
+          email.value.email = value
+        },
+      }
+    ),
+  ]
 }
 
 const changeDialog = (msg) => {
@@ -50,25 +169,28 @@ const changeDialog = (msg) => {
     case "password":
       dialog.info({
         title: '修改密码',
-        content: getVNode.bind(null, inputRef),
+        content: getPasswordVNode.bind(null, inputRef),
         positiveText: '确定',
         negativeText: '取消',
-        onPositiveClick: () => {
-          console.log(inputRef.value.value)
+        onPositiveClick: async() => {
+          const {data}= await changePassword(password.value)
+          if (data.code === 200) {
+            $message.success(data.msg)
+          } else {
+            $message.error(data.msg)
+          }
         },
-        onNegativeClick: () => {
-          console.log(inputRef.value.value)
-        }
+        onNegativeClick: () => {}
       })
       break
     case "question":
       dialog.info({
         title: '修改密保问题',
-        content: '修改密保问题',
+        content: questionVNode.bind(null, null),
         positiveText: '确定',
         negativeText: '取消',
         onPositiveClick: () => {
-          console.log('positive')
+          $message.success('修改成功')
         },
         onNegativeClick: () => {
           console.log('negative')
@@ -78,28 +200,41 @@ const changeDialog = (msg) => {
     case "phone":
       dialog.info({
         title: '修改安全手机',
-        content: '修改安全手机',
+        content: phoneVNode.bind(null, null),
         positiveText: '确定',
         negativeText: '取消',
-        onPositiveClick: () => {
-          console.log('positive')
+        onPositiveClick: async() => {
+          const {data} = await changePhoneNumber(phoneNumber.value)
+          console.log(data)
+          if (data.code === '0') {
+            $message.success("修改成功")
+            emit('submit')
+          } else {
+            $message.error("修改失败")
+          }
         },
         onNegativeClick: () => {
-          console.log('negative')
         }
       })
       break
     case "email":
       dialog.info({
         title: '修改安全邮箱',
-        content: '修改安全邮箱',
+        content: emailVNode.bind(null, null),
         positiveText: '确定',
         negativeText: '取消',
-        onPositiveClick: () => {
-          console.log('positive')
+        onPositiveClick: async() => {
+          console.log(email.value)
+          const {data} = await changeEmail(email.value)
+          console.log(data)
+          if (data.status === 'success') {
+            $message.success("修改成功")
+            emit('submit')
+          } else {
+            $message.error("修改失败")
+          }
         },
         onNegativeClick: () => {
-          console.log('negative')
         }
       })
       break
@@ -111,7 +246,4 @@ const props = defineProps({
   email: String,
 })
 
-onMounted(() => {
-  console.log(props)
-})
 </script>

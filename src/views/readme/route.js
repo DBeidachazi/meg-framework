@@ -15,7 +15,7 @@ export default {
       path: 'readme',
       component: () => import('./readme.vue'),
       meta: {
-        title: '使用教程',
+        title: '说明',
         icon: 'mdi:book',
       }
     }

@@ -336,7 +336,7 @@ const columns = createColumns({
       title: "  填写诊断书",
       style: { width: "80%", height: "100%" },
       content: getVNode.bind(null, row),
-      // content: (code) => getVNode(code), 
+      // content: (code) => getPasswordVNode(code),
       icon: () => "✍",
       // positiveText: "提交",
       // onPositiveClick: () => {

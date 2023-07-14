@@ -23,7 +23,7 @@
         <n-button strong secondary round :type="buttonOneType" @click='changeToOnePage'>安全设置</n-button>
         <br>
 
-        <basic-setting v-if='pageOne' :phonenumber='safePhone' :email='safeEmail'/>
+        <basic-setting v-if='pageOne' @submit='father' :phonenumber='safePhone' :email='safeEmail'/>
         <safe-setting v-if='pageTwo' @submit='father'/>
       </div>
     </n-card>
