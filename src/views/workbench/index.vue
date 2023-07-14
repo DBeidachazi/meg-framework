@@ -3,7 +3,7 @@
     <div flex-1>
       <n-card rounded-10>
         <div flex items-center>
-          <img rounded-full width='60' :src='userStore.avatar' alt='' />
+          <img rounded-full width='60' :src='doctorAvatar' alt='' />
           <div ml-20>
             <!-- 用户提示语 -->
             <p text-16>Hello, {{ userStore.name.split('(')[1].split(')')[0] }}</p>
@@ -58,6 +58,8 @@ import doctor_patient from '@/assets/lottie/admin/number_doctor_patient.json'
 import aply from '@/assets/lottie/admin/number_aply.json'
 import fenge from '@/assets/lottie/doctor/number_fenge.json'
 import load from '@/assets/lottie/doctor/model_load.json'
+
+import doctorAvatar from "@/assets/images/doctor.png"
 
 
 const { information, getAllData } = api
