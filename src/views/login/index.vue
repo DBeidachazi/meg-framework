@@ -138,7 +138,7 @@ async function handleLogin() {
         if (res.data.token === 'admin') {
           router.push('/workbench')
         } else {
-          router.push('/list')
+          router.push('/workbench')
         }
       }
       // set avatar
