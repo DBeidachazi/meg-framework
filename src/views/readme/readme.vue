@@ -6,11 +6,20 @@
         <span mb-15 style='font-size: 25px; font-weight: bold'>
           说明
         </span>
-        <span style='font-size: 15px'>
-          asdfasdf
-          <br>
-          asdjfiosadjifosa
-
+        <span style='font-size: 18px'>
+            <ul>
+            <li><strong><h1>📦 MedSego平台是基于百度的paddlepaddles深度学习框架开发的智慧医疗数据解析平台</h1></strong></li>
+            <br>
+            <li><strong>🤹功能：</strong>帮助医生快速进行医疗影像数据的导入、阅片、分割、处理等，实现全流程的处理方案帮助医生快速阅片。</li>
+            <br>
+            <li><strong>🍏 分割目标</strong>：腹腔内的11个器官，包括脾脏、右肾、左肾、胆囊、食道、肝、胃、主动脉、下腔静脉、胰腺、膀胱</li>
+            <br>
+            <li><strong>🍋 算法</strong>：基于经典的unet医疗分割模型改进的nnunet模型，能高精度的识别腹腔内的11个器官</li>
+            <br>
+            <li><strong>🍎前端</strong>：Vue3.0+Cornerstonejs+Three.js集成化开发</li>
+            <br>
+            <li><strong>🍉 后端</strong>：Falsk+Postgresql+MVC架构</li>
+          </ul>
         </span>
       </div>
     </n-card>
