@@ -1,11 +1,11 @@
 <template>
-  <n-space vertical :size="12" my-14 mx-10 rounded-10>
+  <n-space vertical :size='12' my-14 mx-10 rounded-10>
     <n-space>
-        <template #suffix>
-          <n-icon :component="FlashOutline" />
-        </template>
+      <template #suffix>
+        <n-icon :component='FlashOutline' />
+      </template>
     </n-space>
-    <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive'/>
+    <n-data-table :columns='columns' :data='dataArr' :pagination='paginationReactive' />
   </n-space>
 
 </template>
@@ -16,11 +16,11 @@ import { h, onMounted, reactive, ref } from 'vue'
 import { NButton, useMessage, useDialog, NCheckbox, NEllipsis, NGradientText } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import { useStore } from '@/store/modules/store'
-import { FlashOutline } from "@vicons/ionicons5";
+import { FlashOutline } from '@vicons/ionicons5'
 import _ from 'lodash'
 import api from '@/views/api/index'
 
-const { } = api
+const { addQuota, quotaApplyRemove, quotaApplyInquery } = api
 const dialog = useDialog()
 const store = useStore()
 const username = localStorage.getItem('username')
@@ -32,112 +32,87 @@ const paginationReactive = reactive({
   showSizePicker: true,
   pageSizes: [5, 10],
   onChange: (page) => {
-    paginationReactive.page = page;
+    paginationReactive.page = page
   },
   onUpdatePageSize: (pageSize) => {
-    paginationReactive.pageSize = pageSize;
-    paginationReactive.page = 1;
+    paginationReactive.pageSize = pageSize
+    paginationReactive.page = 1
   }
-});
+})
 
-// const getAll = async (isFilter)=>{
-//   if (typeof isFilter === 'undefined') {
-//     getall(username).then( ({data}) => {
-//       // 倒序排列
-//       // dataArr.value = data.sort((a,b)=>b.id-a.id)
-//       dataArr.value = data
-//       // lodash 去重
-//       dataArr.value = _.uniqBy(dataArr.value, 'code')
-//       // console.log(dataArr.value)
-//     })
-//       .catch(error => {
-//         console.error(error)
-//       })
-//   } else {
-//     getall(username).then( ({data}) => {
-//       // dataArr.value = _.reverse(data)
-//       dataArr.value = data
-//       dataArr.value = _.uniqBy(dataArr.value, 'code')
-//       // console.log(dataArr.value)
-//       dataArr.value = _.filter(dataArr.value, (item) => {
-//         return _.some(item, (value) => {
-//           if (typeof value === 'string') {
-//             return value.toLowerCase().includes(isFilter)
-//           }
-//           if (typeof value === 'number') {
-//             return value.toString().includes(isFilter)
-//           }
-//         })
-//       })
-//     }) .catch(error => {
-//       console.error(error)
-//     })
-//   }
-// }
-//
-// onMounted(() => {
-//   getAll()
-// })
+const getQuotaApplyInquery = async () => {
+  quotaApplyInquery().then(({ data }) => {
+    console.log(data)
+    dataArr.value = data.data
+  })
+}
 
+onMounted(() => {
+  getQuotaApplyInquery()
+})
 
-const createColumns = ({
-
-                       }) => {
+const createColumns = ({}) => {
   return [
     { title: '医生', key: 'username' },
-    { title: '当前数量', key: 'current_amount' },
-    { title: '申请数量', key: 'apply_amount' },
-    { title: '申请时间', key: 'time' },
+    { title: '当前数量', key: 'quota' },
+    { title: '申请数量', key: 'amount' },
+    { title: '申请时间', key: 'created_at' },
     {
       title: '是否同意',
       key: 'is_accept',
       render(row) {
-        return  [
+        return [
           h(NButton, {
             strong: true,
             tertiary: true,
             size: 'small',
-            onClick: () => {
-              console.log("accept", row)
+            onClick: async () => {
+              const addQuotaParma = {
+                username: row.username,
+                amount: Number(row.amount)
+              }
+              await addQuota(addQuotaParma).then(({ data }) => {
+                console.log(data)
+              })
+              await quotaApplyRemove({
+                id: Number(row.id)
+              }).then(({ data }) => {
+                getQuotaApplyInquery()
+                $message.success("申请通过")
+                console.log(data)
+              })
             },
             style: {
               backgroundColor: '#4CAF50',
               color: 'white',
-              marginRight: '7rem',
-            },
+              marginRight: '7rem'
+            }
           }, '同意'),
           h(NButton, {
             strong: true,
             tertiary: true,
             size: 'small',
             style: {
-              marginTop: "2rem",
+              marginTop: '2rem',
               marginLeft: 'auto'
             },
-            onClick: () => {
-              console.log("拒绝", row)
+            onClick: async () => {
+              await quotaApplyRemove({
+                id: Number(row.id)
+              }).then(({ data }) => {
+                getQuotaApplyInquery()
+                $message.success("申请拒绝")
+                console.log(data)
+              })
             }
-          }, '拒绝'),
+          }, '拒绝')
         ]
       }
-    },
+    }
   ]
 }
 
-let dataArr = ref([
-  {
-    username: "123",
-    current_amount: "122",
-    apply_amount: "123",
-    time: "1929.1.2",
-  },
-  {
-    username: "1234",
-    current_amount: "122",
-    apply_amount: "123",
-    time: "1929.1.2",
-  }
-])
+let dataArr = ref([])
 
 
 const columns = createColumns({
@@ -145,10 +120,10 @@ const columns = createColumns({
     console.log(row)
     // dialog.info弹出退画框
     dialog.info({
-      title: "选择查看类型",
-      icon: () => ""
+      title: '选择查看类型',
+      icon: () => ''
     })
-  },
+  }
 
 })
 

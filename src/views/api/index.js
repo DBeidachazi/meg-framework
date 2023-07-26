@@ -30,4 +30,9 @@ export default {
   changePassword: (data) => request.post('change_password', data),
   changePhoneNumber: (data) => request.post('change_phonenumber', data),
   changeEmail: (data) => request.post('change_email', data),
+
+  quotaApplyInsert: (data) => request.post('quota_apply_insert', data), // 申请
+  addQuota: (data) => request.post('add_quota', data), // 同意
+  quotaApplyRemove: (data) => request.post('quota_apply_remove', data), // 删除记录
+  quotaApplyInquery: () => request.get('quota_apply_inquery'), // 查询申请
 }
