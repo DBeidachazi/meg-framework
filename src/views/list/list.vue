@@ -115,10 +115,14 @@ const getAll = async (isFilter)=>{
         console.error(error)
       })
   }
+
 }
 
 onMounted(() => {
   getAll()
+  setTimeout(() => {
+    console.log(dataArr.value)
+  }, 1000)
 })
 
 

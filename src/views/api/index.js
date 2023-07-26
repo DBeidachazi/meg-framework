@@ -12,7 +12,7 @@ export default {
   register: (data, headers) => request.post('register', data, headers),
   information: () => request.get('information'),
 
-  fetchData: (username) => request.get(`quota_inquiry?username=${username}`),
+  fetchData: (username) => request.get(`quota_inquiry?username=${username}`), // 额度的数据
 
   queryCase: (cid) => request.get(`query_case?cid=${cid}`),
   insertCase: (body, cid) => request.post("insert_case", {body, cid}),
