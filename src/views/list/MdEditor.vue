@@ -37,7 +37,6 @@ import _ from 'lodash'
 import Speech from 'speak-tts'
 import { onBeforeMount, onUnmounted } from 'vue'
 const speech = new Speech()
-import '@/assets/icon/icon.svg'
 
 
 

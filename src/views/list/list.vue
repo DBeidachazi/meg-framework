@@ -1,5 +1,5 @@
 <template>
-  <n-space vertical :size="12" my-14 mx-10>
+  <n-space vertical :size="12" my-14 mx-10 flex>
     <n-space mx-20>
       <n-button type='primary' @click="insertPatientInformation">新增病人信息</n-button>
       <n-input  placeholder="搜索" v-model:value='search' passively-activated @keyup.enter='handleSearchKeyUpEnter' clearable>
@@ -7,6 +7,7 @@
           <n-icon :component="FlashOutline" />
         </template>
       </n-input>
+      <n-button @click='exportXlsx' type='primary'>导出</n-button>
 
 <!--      <n-button type='success' @click="searchPatients">查询病人信息</n-button>-->
 <!--      <n-button type='error' @click="clearFilters">Clear Filters</n-button>-->
@@ -20,7 +21,7 @@
 
 
 <script setup>
-import { h, onMounted, reactive, ref } from 'vue'
+import { h, onMounted, reactive, ref, watch } from 'vue'
 import { NButton, useMessage, useDialog, NCheckbox, NEllipsis, NGradientText } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import PatientForm from '@/components/button/PatientForm.vue'
@@ -29,6 +30,25 @@ import { FlashOutline } from "@vicons/ionicons5";
 import _ from 'lodash'
 import api from '@/views/api/index'
 import MdEditor from './MdEditor.vue'
+import { handleExport } from '@/utils/xlsx/xlsx'
+
+const exportXlsx = () => {
+  const columns = [
+    { key: "name", title: "姓名" },
+    { key: "age", title: "年龄" },
+    { key: "sex", title: "性别" },
+    { key: "upload_time", title: "上传时间"},
+    { key: "code", title: "医疗码"}
+  ]
+  const data = dataArr.value
+  let today = new Date();
+  let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  let time = today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds();
+  let dateTime = date+'_'+time;
+  const filename = localStorage.getItem("username") + "_" + dateTime
+  handleExport(columns, data, filename)
+  console.log("ok")
+}
 
 const dialog = useDialog()
 
