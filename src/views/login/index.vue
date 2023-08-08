@@ -122,6 +122,9 @@ async function handleLogin() {
     if (code === 200 && res.data.token) {
       $message.success('登录成功')
       setToken(res.data.token) // 用户权限 'admin' 'editor'    'guest'
+      localStorage.setItem("jwt", res.data.accessToken)
+      localStorage.setItem("user", res.data.token)
+      console.log(res.data.token)
       localStorage.setItem("username", username)
       // setAccessExpire(accessExpire)
       if (isRemember.value) {
@@ -129,7 +132,7 @@ async function handleLogin() {
       } else {
         lStorage.remove('loginInfo')
       }
-      await addDynamicRoutes()
+      await addDynamicRoutes() // 添加动态路由，这个函数修改了userStore.role的数值
       if (query.redirect) {
         const path = query.redirect
         Reflect.deleteProperty(query, 'redirect')

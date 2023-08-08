@@ -42,9 +42,8 @@ export async function addDynamicRoutes() {
     console.log('有token')
     const userStore = useUserStore()
     const permissionStore = usePermissionStore()
-    !userStore.userId && (await userStore.getUserInfo())
-    console.log(userStore.role)
-    const accessRoutes = permissionStore.generateRoutes(userStore.role) // 返回当前用户侧边路由数组
+    !userStore.userId && (await userStore.getUserInfo()) // 这里给userStore.role赋值
+    const accessRoutes = permissionStore.generateRoutes(userStore.role) // 返回当前用户侧边路由数组, todo 中间件token改成jwt后,userStore.role变成了空值
     accessRoutes.forEach((route) => {
       !router.hasRoute(route.name) && router.addRoute(route)
     })

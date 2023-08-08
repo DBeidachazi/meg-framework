@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { resetRouter } from '@/router'
 import { useTagsStore, usePermissionStore } from '@/store'
 import { removeToken, toLogin } from '@/utils'
+import { users } from '~/mock/api/user'
 import api from '@/api'
 
 export const useUserStore = defineStore('user', {
@@ -27,10 +28,18 @@ export const useUserStore = defineStore('user', {
   actions: {
     async getUserInfo() {
       try {
-        const res = await api.getUser()
-        const { id, name, avatar, role } = res.data
-        this.userInfo = { id, name, avatar, role }
-        return Promise.resolve(res.data)
+        const auth = localStorage.getItem("user")
+        if (auth === "admin") {
+          const { id, name, avatar, role } = users.admin
+          this.userInfo = { id, name, avatar, role }
+          return Promise.resolve(users.admin)
+        } else if ( auth === "editor" ) {
+          const { id, name, avatar, role } = users.editor
+          this.userInfo = { id, name, avatar, role }
+          return Promise.resolve(users.editor)
+        }
+        // const res = await api.getUser()
+        // const { id, name, avatar, role } = res.data
       } catch (error) {
         return Promise.reject(error)
       }

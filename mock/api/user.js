@@ -1,6 +1,6 @@
 import { resolveToken } from '../utils'
 
-const users = {
+export const users = {
   admin: {
     id: 1,
     name: '大脸怪(admin)',

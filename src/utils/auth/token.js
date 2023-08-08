@@ -18,6 +18,7 @@ export function removeToken() {
 
 export async function refreshAccessToken() {
   const tokenItem = lStorage.getItem(TOKEN_CODE)
+  console.log(tokenItem)
   if (!tokenItem) {
     return
   }

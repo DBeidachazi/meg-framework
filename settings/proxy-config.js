@@ -1,8 +1,8 @@
 const proxyConfigMappings = {
   dev: {
     prefix: '/api',
-    target: 'http://127.0.0.1:8009/',
-    // target: 'http://nps.minsir.com:8009/',
+    // target: 'http://127.0.0.1:8009/',
+    target: 'http://nps.minsir.com:8009/',
   },
   test: {
     prefix: '/api',

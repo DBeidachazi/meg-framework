@@ -2,13 +2,16 @@ import { getToken } from '@/utils'
 import { resolveResError } from './helpers'
 
 export function reqResolve(config) {
+  console.log("headers: ", config.headers)
   // 处理不需要token的请求
   if (config.noNeedToken) {
     return config
   }
 
   const token = getToken()
-  if (!token) {
+  // console.log(token)
+  const jwt  = localStorage.getItem("jwt")
+  if (!jwt) {
     return Promise.reject({ code: 401, message: '登录已过期，请重新登录！' })
   }
 
@@ -16,7 +19,8 @@ export function reqResolve(config) {
    * * 加上 token
    * ! 认证方案: JWT Bearer
    */
-  config.headers.Authorization = config.headers.Authorization || 'Bearer ' + token
+  // config.headers.Authorization = config.headers.Authorization || 'Bearer ' + token
+  config.headers.Authorization = config.headers.Authorization || 'Bearer ' + jwt
 
   return config
 }

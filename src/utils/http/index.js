@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { resReject, resResolve, reqReject, reqResolve } from './interceptors'
 
+// 退出登录 userStore.logout()
 export function createAxios(options = {}) {
   const defaultOptions = {
     timeout: 12000000000,
@@ -18,6 +19,4 @@ export const request = createAxios({
   baseURL: import.meta.env.VITE_BASE_API,
 })
 
-export const req = createAxios({
-  baseURL: 'http://localhost:8009',
-})
+

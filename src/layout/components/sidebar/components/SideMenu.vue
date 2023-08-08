@@ -98,7 +98,6 @@ function getIcon(meta) {
 
 function handleMenuSelect(key, item) {
   if (key === 'review') {
-    // TODO : 点击阅片发送手机号
     // request.post('http://localhost:8009/sendnumber', {
     //   'current_number': localStorage.getItem('mobile')
     // }).then( ({data}) => {
